@@ -2,7 +2,7 @@
 Semesterprojektet i andet semester
 
 ## Links
-**GDrive -** 
+**GDrive -** https://drive.google.com/drive/folders/1s28U_qzmXD_1wf5mVhiYWjgBLzFyHBXs?usp=sharing
 
 **Trello -** https://trello.com/b/2nlaSDk1/projekt-2-sdu
 
