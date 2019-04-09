@@ -5,10 +5,18 @@
  */
 package DomainLayer;
 
+import java.util.UUID;
+
 /**
  *
  * @author andre
  */
-public class Manager {
+public class Resident extends Person{
+    
+    private String name;
+
+    public String getName(){
+        return name;
+    }
     
 }
