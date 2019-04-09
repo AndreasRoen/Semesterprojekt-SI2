@@ -13,10 +13,5 @@ import java.util.UUID;
  */
 public class Resident extends Person{
     
-    private String name;
-
-    public String getName(){
-        return name;
-    }
     
 }

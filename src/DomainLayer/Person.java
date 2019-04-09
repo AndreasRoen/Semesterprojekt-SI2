@@ -14,6 +14,7 @@ import java.util.UUID;
 class Person {
     
     private UUID id;
+    private String name;
 
     public Person() {
         this.id = UUID.randomUUID();
@@ -21,5 +22,8 @@ class Person {
     
     public UUID getId(){
         return id;
+    }
+    public String getName(){
+        return name;
     }
 }
