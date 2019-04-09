@@ -16,8 +16,9 @@ class Person {
     private UUID id;
     private String name;
 
-    public Person() {
+    public Person(String name) {
         this.id = UUID.randomUUID();
+        this.name = name;
     }
     
     public UUID getId(){

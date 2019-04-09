@@ -13,5 +13,9 @@ import java.util.UUID;
  */
 public class Resident extends Person{
     
+    public Resident(String name) {
+        super(name);
+    }
+    
     
 }
