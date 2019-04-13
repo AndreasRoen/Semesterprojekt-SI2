@@ -7,14 +7,23 @@ package UI;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
  *
  * @author andre
  */
-public class LoginController implements Initializable {
+public class FXMLController implements Initializable {
+
+    @FXML
+    private AnchorPane LoginScreen;
+    @FXML
+    private AnchorPane ModuleSelection;
+    @FXML
+    private AnchorPane Diary;
 
     /**
      * Initializes the controller class.

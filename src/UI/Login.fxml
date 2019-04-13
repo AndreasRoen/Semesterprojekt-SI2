@@ -13,7 +13,7 @@
         <URL value="@fxml.css" />
     </stylesheets>
    <children>
-      <AnchorPane id="Login" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="520.0" prefWidth="470.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="Login" fx:id="LoginScreen" layoutX="10.0" layoutY="10.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="520.0" prefWidth="470.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <stylesheets>
             <URL value="@fxml.css" />
          </stylesheets>
@@ -25,7 +25,7 @@
             <Text layoutX="195.0" layoutY="291.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
          </children>
       </AnchorPane>
-      <AnchorPane id="AnchorPane" disable="true" layoutX="-57.0" layoutY="20.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="730.0" prefWidth="913.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="AnchorPane" fx:id="ModuleSelection" disable="true" layoutX="-57.0" layoutY="20.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="730.0" prefWidth="913.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <stylesheets>
             <URL value="@fxml.css" />
          </stylesheets>
@@ -34,7 +34,7 @@
             <Button layoutX="562.0" layoutY="325.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" text="Kalender" />
          </children>
       </AnchorPane>
-      <AnchorPane id="AnchorPane" disable="true" layoutX="-47.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="730.0" prefWidth="913.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane id="AnchorPane" fx:id="Diary" disable="true" layoutX="-47.0" layoutY="10.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.0" prefHeight="730.0" prefWidth="913.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <stylesheets>
             <URL value="@fxml.css" />
          </stylesheets>
