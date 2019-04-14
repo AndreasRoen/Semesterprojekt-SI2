@@ -5,13 +5,24 @@
  */
 package UI;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -21,48 +32,36 @@ import javafx.scene.layout.Pane;
 public class FXMLController implements Initializable {
 
     @FXML
-    private AnchorPane LoginScreen;
+    private TextField txtUsername;
     @FXML
-    private AnchorPane ModuleSelection;
+    private TextField txtPassword;
     @FXML
-    private AnchorPane Diary;
-    @FXML
-    private AnchorPane RootPane;
-    
-    private ArrayList<AnchorPane> panes;
+    private Button loginButton;
+
+    public void login(ActionEvent event){
+        if(txtUsername.getText().equals("user") && txtPassword.getText().equals("pass")){
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("ModuleSelector.fxml"));
+                Scene scene = new Scene(root);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(scene);
+                window.show();
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+           }
+        }
+    }
     
     public FXMLController(){
-        System.out.println("FXMLController contructor activated");
-        this.panes = new ArrayList<>();
-        panes.add(LoginScreen);
-        panes.add(ModuleSelection);
-        panes.add(Diary);
-//        Scene scene = 
-        switchTo(LoginScreen);
+        
     }
 
     /**
-     * Initializes the controller class.
+     * initialises the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
     }  
-    
-    public void switchTo(AnchorPane pane){
-        System.out.println("switching to active pane");
-//        for (AnchorPane p: panes){
-//            if (p != pane){
-//                p.setDisable(true);
-//                p.setVisible(false);                
-//            }else{
-//                p.setDisable(false);
-//                p.setVisible(true);
-//            }
-//            
-//        }
-        System.out.println("active pane is " + pane);
-//        RootPane.setPrefSize(pane.getPrefHeight(), pane.getPrefWidth());
-    }
-    
+        
 }

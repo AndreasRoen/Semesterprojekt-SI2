@@ -24,19 +24,17 @@ import javafx.stage.Stage;
 public class Main extends Application {
     
     @Override
-    public void start(Stage primaryStage) {
-        
-        try {
-			FXMLLoader loader = new FXMLLoader(Main.class.getResource("Socialportalen.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-			Scene scene = new Scene(page);
-			primaryStage.setScene(scene);
-			primaryStage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        
+    public void start(Stage primaryStage) {        
+    try {
+	FXMLLoader loader = new FXMLLoader(Main.class.getResource("Login.fxml"));
+	AnchorPane page = (AnchorPane) loader.load();
+	Scene scene = new Scene(page);
+	primaryStage.setScene(scene);
+	primaryStage.show();
+    } catch (IOException e) {
+	e.printStackTrace();
     }
+}
 
     /**
      * @param args the command line arguments
