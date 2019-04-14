@@ -57,7 +57,7 @@ public class FXMLController implements Initializable {
     }
 
     public void calender(ActionEvent event) {
-        changeScene(event, "Kalender");
+        changeScene(event, "Calender");
     }
 
     public void changeScene(ActionEvent event, String fxml) {

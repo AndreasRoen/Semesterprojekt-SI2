@@ -10,7 +10,7 @@
         <URL value="@fxml.css" />
     </stylesheets>
    <children>
-      <Label layoutX="236.0" layoutY="190.0" text="This is the kalender" />
-      <Button layoutX="275.0" layoutY="280.0" mnemonicParsing="false" onAction="#moduleSelection" text="Back" />
+      <Label alignment="CENTER" layoutX="217.0" layoutY="124.0" prefHeight="36.0" prefWidth="166.0" text="This is the calender" />
+      <Button layoutX="275.0" layoutY="264.0" mnemonicParsing="false" onAction="#moduleSelection" text="Back" />
    </children>
 </AnchorPane>

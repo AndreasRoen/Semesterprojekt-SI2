@@ -11,7 +11,7 @@
     </stylesheets>
    <children>
       <Button layoutX="133.0" layoutY="161.0" mnemonicParsing="false" onAction="#dairy" prefHeight="78.0" prefWidth="127.0" text="Dagbog" />
-      <Button layoutX="351.0" layoutY="161.0" mnemonicParsing="false" onAction="#calender" prefHeight="78.0" prefWidth="127.0" text="Kalender" />
       <Label alignment="CENTER" layoutX="183.0" layoutY="61.0" prefHeight="58.0" prefWidth="235.0" text="Vælg det ønskede modul" />
+      <Button layoutX="355.0" layoutY="161.0" mnemonicParsing="false" onAction="#calender" prefHeight="78.0" prefWidth="127.0" text="Kalender" />
    </children>
 </AnchorPane>
