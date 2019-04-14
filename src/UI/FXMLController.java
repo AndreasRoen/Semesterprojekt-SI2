@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -31,29 +32,48 @@ import javafx.stage.Stage;
  */
 public class FXMLController implements Initializable {
 
+    //IDs from Login screen
     @FXML
     private TextField txtUsername;
     @FXML
     private TextField txtPassword;
     @FXML
-    private Button loginButton;
+    private Label loginStatus;
 
-    public void login(ActionEvent event){
-        if(txtUsername.getText().equals("user") && txtPassword.getText().equals("pass")){
-            try {
-                Parent root = FXMLLoader.load(getClass().getResource("ModuleSelector.fxml"));
-                Scene scene = new Scene(root);
-                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                window.setScene(scene);
-                window.show();
-            } catch (IOException ex) {
-                Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
-           }
+    public void login(ActionEvent event) {
+        if (txtUsername.getText().equals("user") && txtPassword.getText().equals("pass")) {
+            moduleSelection(event);
+        } else {
+            loginStatus.setText("Wrong Username / Password");
         }
     }
-    
-    public FXMLController(){
-        
+
+    public void moduleSelection(ActionEvent event) {
+        changeScene(event, "ModuleSelector");
+    }
+
+    public void dairy(ActionEvent event) {
+        changeScene(event, "Dairy");
+    }
+
+    public void calender(ActionEvent event) {
+        changeScene(event, "Kalender");
+    }
+
+    public void changeScene(ActionEvent event, String fxml) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource(fxml + ".fxml"));
+            Scene scene = new Scene(root);
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(scene);
+            window.show();
+        } catch (IOException ex) {
+            Logger.getLogger(FXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public FXMLController() {
+
     }
 
     /**
@@ -61,7 +81,7 @@ public class FXMLController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }  
-        
+
+    }
+
 }
