@@ -6,10 +6,12 @@
 package UI;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -24,6 +26,20 @@ public class FXMLController implements Initializable {
     private AnchorPane ModuleSelection;
     @FXML
     private AnchorPane Diary;
+    @FXML
+    private AnchorPane RootPane;
+    
+    private ArrayList<AnchorPane> panes;
+    
+    public FXMLController(){
+        System.out.println("FXMLController contructor activated");
+        this.panes = new ArrayList<>();
+        panes.add(LoginScreen);
+        panes.add(ModuleSelection);
+        panes.add(Diary);
+//        Scene scene = 
+        switchTo(LoginScreen);
+    }
 
     /**
      * Initializes the controller class.
@@ -31,6 +47,22 @@ public class FXMLController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }  
+    
+    public void switchTo(AnchorPane pane){
+        System.out.println("switching to active pane");
+//        for (AnchorPane p: panes){
+//            if (p != pane){
+//                p.setDisable(true);
+//                p.setVisible(false);                
+//            }else{
+//                p.setDisable(false);
+//                p.setVisible(true);
+//            }
+//            
+//        }
+        System.out.println("active pane is " + pane);
+//        RootPane.setPrefSize(pane.getPrefHeight(), pane.getPrefWidth());
+    }
     
 }

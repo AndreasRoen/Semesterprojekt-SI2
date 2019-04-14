@@ -14,29 +14,28 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
  *
  * @author andre
  */
-public class NewFXMain extends Application {
+public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) {
         
-        Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        } catch (IOException ex) {
-            System.out.println("File not found");
-            Logger.getLogger(NewFXMain.class.getName()).log(Level.SEVERE, null, ex);
-        }
+			FXMLLoader loader = new FXMLLoader(Main.class.getResource("Socialportalen.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+			Scene scene = new Scene(page);
+			primaryStage.setScene(scene);
+			primaryStage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         
-        Scene scene = new Scene(root);
-        
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     /**
