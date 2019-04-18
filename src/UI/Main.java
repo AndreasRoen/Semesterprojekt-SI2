@@ -39,7 +39,6 @@ public class Main extends Application {
     
     @Override
     public void start(Stage primaryStage) {
-//        stage.setTitle("Socialportalen");
         this.stage = primaryStage;
         GridPane grid = new GridPane();
         Scene scene = new Scene(grid, 960, 720);
@@ -91,16 +90,31 @@ public class Main extends Application {
     }
     
     private boolean validLogin(String username, String password) {
-        //TODO check with existing accounts in DATA layer
-        if ("user".equals(username) && "pass".equals(password)) {
-            type = "Caregiver";
-            return true;
-        } else if ("admin".equals(username) && "pass".equals(password)) {
-            type = "Admin";
-            return true;
+        if(isValid(username) && isValid(password)){
+            //TODO check with existing accounts in DATA layer
+            if ("user".equals(username) && "pass".equals(password)) {
+                type = "Caregiver";
+                return true;
+            } else if ("admin".equals(username) && "pass".equals(password)) {
+                type = "Admin";
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
+    }
+    
+    private boolean isValid(String string){
+        char[] stringToCharArray = string.toCharArray();
+        boolean test = true;
+        for(char c : stringToCharArray){
+            if (!Character.isLetter(c) && !Character.isDigit(c)){
+                test = false;
+            }
+        }
+        return test;
     }
     
     private void moduleSelection() {
