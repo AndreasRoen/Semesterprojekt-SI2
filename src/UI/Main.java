@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +41,11 @@ public class Main extends Application {
     
     private String type;
     
+    private ObservableList<String> residents;
+    
+    private ObservableList<String> staff;
+    
+    
     @Override
     public void start(Stage primaryStage) {
         this.stage = primaryStage;
@@ -49,6 +56,8 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.show();
         stage.setTitle("Socialportalen");
+        residents = FXCollections.observableArrayList();
+        staff = FXCollections.observableArrayList();
         login();
     }
     
@@ -82,6 +91,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 if (validLogin(txUsername.getText(), txPassword.getText())) {
+                    //TODO load 'residents' / 'staff' from DATA layer
                     moduleSelection();
                 } else {
                     status.setText("Invalid Username / Password");
@@ -201,22 +211,27 @@ public class Main extends Application {
         VBox vbox = new VBox();
         vbox.setPrefWidth(80.0);
         vbox.setAlignment(Pos.TOP_CENTER);
-        vbox.setSpacing(20.0);
-        vbox.setPadding(new Insets(10, 10, 10, 10));
+        vbox.setSpacing(30.0);
+        vbox.setPadding(new Insets(100, 10, 10, 10));
         Button add = new Button("Add");
-        add.setMinWidth(vbox.getPrefWidth());
-        vbox.getChildren().add(add);
+        add.setMinWidth(vbox.getPrefWidth());        
         Button edit = new Button("Edit");
-        edit.setMinWidth(vbox.getPrefWidth());
-        vbox.getChildren().add(edit);
+        edit.setMinWidth(vbox.getPrefWidth());        
         Button remove = new Button("Remove");
-        remove.setMinWidth(vbox.getPrefWidth());
-        vbox.getChildren().add(remove);
+        remove.setMinWidth(vbox.getPrefWidth());        
+        Button select = new Button("Select");
         grid.add(vbox, 1, 0);
-        //TODO add buttons to edit listView
+        
         //TODO load listview with data for wantedList
-        //TODO add buttons to 'vbox' in 'overview' based on user type
-        //TODO add 'select' button to 'vbox' in 'overview' for 'Caregivers'
+        
+        if("Admin".equals(type)){
+            vbox.getChildren().add(add);
+            vbox.getChildren().add(edit);
+            vbox.getChildren().add(remove);
+        }
+        if("Caregiver".equals(type)){
+            vbox.getChildren().add(select);
+        }
         
         //Tests listView with dummy data
         listView.getItems().add("Test Item1");
@@ -231,6 +246,30 @@ public class Main extends Application {
         Scene scene = new Scene(grid, 600, 780);
         stage.setScene(scene);
         
+        select.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO make button open diary for selected 'Resident' in 'listView'
+            }
+        });
+        add.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO make button open window where data for new 'Staff' / 'Resident' can be added (based on 'wantedList')
+            }
+        });
+        edit.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO make button open window from 'add' with data filled in
+            }
+        });
+        remove.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO make button remove selected item in 'listView'
+            }
+        });
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
