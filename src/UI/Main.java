@@ -18,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -25,6 +26,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -90,7 +92,7 @@ public class Main extends Application {
     }
     
     private boolean validLogin(String username, String password) {
-        if(isValid(username) && isValid(password)){
+        if (isValid(username) && isValid(password)) {
             //TODO check with existing accounts in DATA layer
             if ("user".equals(username) && "pass".equals(password)) {
                 type = "Caregiver";
@@ -106,11 +108,11 @@ public class Main extends Application {
         }
     }
     
-    private boolean isValid(String string){
+    private boolean isValid(String string) {
         char[] stringToCharArray = string.toCharArray();
         boolean test = true;
-        for(char c : stringToCharArray){
-            if (!Character.isLetter(c) && !Character.isDigit(c)){
+        for (char c : stringToCharArray) {
+            if (!Character.isLetter(c) && !Character.isDigit(c)) {
                 test = false;
             }
         }
@@ -157,7 +159,7 @@ public class Main extends Application {
         diary.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO open overview with list of Residents, diary of selected resident replaces resident overview
+                overview("Residents");
             }
         });
         calender.setOnAction(new EventHandler<ActionEvent>() {
@@ -169,13 +171,70 @@ public class Main extends Application {
         manageStaff.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO open overview with list of Staff
+                overview("Staff");
+            }
+        });
+        manageResidents.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                overview("Residents");
             }
         });
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 login();
+            }
+        });
+    }
+    
+    private void overview(String wantedList) {
+        //Sets up overview scene
+        GridPane grid = new GridPane();
+        ListView listView = new ListView();
+        grid.add(listView, 0, 0);
+        grid.getColumnConstraints().add(new ColumnConstraints(500));
+        grid.getRowConstraints().add(new RowConstraints(700));
+        Button back = new Button();
+        back.setText("Back");
+        grid.add(back, 1, 1);
+        VBox vbox = new VBox();
+        vbox.setPrefWidth(80.0);
+        vbox.setAlignment(Pos.TOP_CENTER);
+        vbox.setSpacing(20.0);
+        vbox.setPadding(new Insets(10, 10, 10, 10));
+        Button add = new Button("Add");
+        add.setMinWidth(vbox.getPrefWidth());
+        vbox.getChildren().add(add);
+        Button edit = new Button("Edit");
+        edit.setMinWidth(vbox.getPrefWidth());
+        vbox.getChildren().add(edit);
+        Button remove = new Button("Remove");
+        remove.setMinWidth(vbox.getPrefWidth());
+        vbox.getChildren().add(remove);
+        grid.add(vbox, 1, 0);
+        //TODO add buttons to edit listView
+        //TODO load listview with data for wantedList
+        //TODO add buttons to 'vbox' in 'overview' based on user type
+        //TODO add 'select' button to 'vbox' in 'overview' for 'Caregivers'
+        
+        //Tests listView with dummy data
+        listView.getItems().add("Test Item1");
+        listView.getItems().add("Test Item2");
+        if("Staff".equals(wantedList)){
+            listView.getItems().add("Test Staff 1");
+        }
+        if("Residents".equals(wantedList)){
+            listView.getItems().add("Test Resident 1");
+        }
+        
+        Scene scene = new Scene(grid, 600, 780);
+        stage.setScene(scene);
+        
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                moduleSelection();
             }
         });
     }
