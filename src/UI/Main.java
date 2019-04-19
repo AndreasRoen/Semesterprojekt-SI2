@@ -29,6 +29,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 /**
@@ -44,6 +45,8 @@ public class Main extends Application {
     private ObservableList<String> residents;
     
     private ObservableList<String> staff;
+    
+    private ListView listView;
     
     
     @Override
@@ -91,7 +94,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 if (validLogin(txUsername.getText(), txPassword.getText())) {
-                    //TODO load 'residents' / 'staff' from DATA layer
+                    //TODO load 'residents' / 'staff' lists from DATA layer
                     moduleSelection();
                 } else {
                     status.setText("Invalid Username / Password");
@@ -201,7 +204,7 @@ public class Main extends Application {
     private void overview(String wantedList) {
         //Sets up overview scene
         GridPane grid = new GridPane();
-        ListView listView = new ListView();
+        listView = new ListView();
         grid.add(listView, 0, 0);
         grid.getColumnConstraints().add(new ColumnConstraints(500));
         grid.getRowConstraints().add(new RowConstraints(700));
@@ -249,31 +252,85 @@ public class Main extends Application {
         select.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO make button open diary for selected 'Resident' in 'listView'
+                //TODO make button open diary for selected 'Resident' in 'listView'                
+                System.out.println(listView.getSelectionModel().getSelectedItem().toString());
             }
         });
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO make button open window where data for new 'Staff' / 'Resident' can be added (based on 'wantedList')
+                //TODO save changes made to 'Resident' / 'Staff' list
+                listPromt("");
             }
         });
         edit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO make button open window from 'add' with data filled in
+                //TODO save changes made to 'Resident' / 'Staff' list
+                listPromt(listView.getSelectionModel().getSelectedItem().toString());
+                //TODO remove original of edited item if edit is not aborted
             }
         });
         remove.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO make button remove selected item in 'listView'
+                //TODO make removes permanent
+                listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
             }
         });
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 moduleSelection();
+            }
+        });
+    }
+    
+    private void listPromt(String namePrompt){
+        //Sets up popup window
+        GridPane pop = new GridPane();
+        pop.setPadding(new Insets(25,25,25,25));
+        pop.setVgap(15.0);
+        pop.setHgap(10.0);
+        Label nameLabel = new Label("Name");
+        nameLabel.setAlignment(Pos.CENTER);
+        pop.add(nameLabel, 0, 0);
+        TextField name = new TextField();
+        name.setText(namePrompt);
+        pop.add(name, 0, 1);
+        Label status = new Label("");
+        pop.add(status, 0, 2);
+        HBox hbox = new HBox();
+        hbox.setSpacing(20.0);
+        Button confirm = new Button("Confirm");
+        hbox.getChildren().add(confirm);
+        Button cancel = new Button("Cancel");
+        hbox.getChildren().add(cancel);
+        pop.add(hbox, 1, 2);
+        
+        //Shows popup window
+        Scene popupScene = new Scene(pop, 450, 200);
+        Stage popup = new Stage();
+        popup.setScene(popupScene);
+        popup.show();
+        
+        //Adds functionality to buttons in popup window
+        confirm.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (isValid(name.textProperty().getValue())){
+                    //TODO save additions permanently in another layer
+                    listView.getItems().add(name.textProperty().getValue());
+                    popup.close();
+                } else {
+                    status.setText("Invalid information entered");
+                }
+            }
+        });
+        cancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                popup.close();
             }
         });
     }
