@@ -5,31 +5,32 @@
  */
 package UI;
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.UUID;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 /**
@@ -46,6 +47,9 @@ public class Main extends Application {
     
     private ObservableList<String> staff;
     
+    //TODO use userId to fetch ObserableLists from other layers
+    private UUID userId;
+    
     private ListView listView;
     
     
@@ -61,10 +65,16 @@ public class Main extends Application {
         stage.setTitle("Socialportalen");
         residents = FXCollections.observableArrayList();
         staff = FXCollections.observableArrayList();
+        //Tests listView with dummy data
+        //TODO load real data from another layer (AFTER SUCCESFUL LOGIN)
+        residents.add("Lone");
+        residents.add("Paul");
+        staff.add("Erik");
         login();
     }
     
     public static void main(String[] args) {
+        Locale.setDefault(Locale.ENGLISH);
         launch(args);
     }
     
@@ -113,6 +123,9 @@ public class Main extends Application {
             } else if ("admin".equals(username) && "pass".equals(password)) {
                 type = "Admin";
                 return true;
+            } else if ("resident".equals(username) && "pass".equals(password)){
+                type = "Resident";
+                return true;
             } else {
                 return false;
             }
@@ -157,13 +170,13 @@ public class Main extends Application {
         moduleGrid.setBottom(backBox);
 
         //Enable buttons available to user type
-        if ("Caregiver".equals(type)) {
-            modules.getChildren().add(diary);
-            modules.getChildren().add(calender);
-        }
+        
         if ("Admin".equals(type)) {
             modules.getChildren().add(manageStaff);
             modules.getChildren().add(manageResidents);
+        } else {
+            modules.getChildren().add(diary);
+            modules.getChildren().add(calender);
         }
         
         Scene scene = new Scene(moduleGrid, 450, 300);
@@ -172,13 +185,19 @@ public class Main extends Application {
         diary.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                overview("Residents");
+                if ("Caregiver".equals(type)) {
+                    overview("Residents");
+                } else {
+                    //TODO set user id as argument
+                    //TODO make 'diary' open diary of the user with the id as argument.
+                    diary("");
+                }                
             }
         });
         calender.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO open calender
+                //TODO open calender (Should not be implemented)
             }
         });
         manageStaff.setOnAction(new EventHandler<ActionEvent>() {
@@ -225,8 +244,7 @@ public class Main extends Application {
         Button select = new Button("Select");
         grid.add(vbox, 1, 0);
         
-        //TODO load listview with data for wantedList
-        
+        //Sets content of 'Overview' based on user type and 'wantedList'
         if("Admin".equals(type)){
             vbox.getChildren().add(add);
             vbox.getChildren().add(edit);
@@ -236,14 +254,12 @@ public class Main extends Application {
             vbox.getChildren().add(select);
         }
         
-        //Tests listView with dummy data
-        listView.getItems().add("Test Item1");
-        listView.getItems().add("Test Item2");
+        //TODO make call to 'Domain' layer and get the wanted list from there
         if("Staff".equals(wantedList)){
-            listView.getItems().add("Test Staff 1");
+            listView.setItems(staff);
         }
         if("Residents".equals(wantedList)){
-            listView.getItems().add("Test Resident 1");
+            listView.setItems(residents);
         }
         
         Scene scene = new Scene(grid, 600, 780);
@@ -252,8 +268,7 @@ public class Main extends Application {
         select.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO make button open diary for selected 'Resident' in 'listView'                
-                System.out.println(listView.getSelectionModel().getSelectedItem().toString());
+                diary(listView.getSelectionModel().getSelectedItem().toString());
             }
         });
         add.setOnAction(new EventHandler<ActionEvent>() {
@@ -333,6 +348,81 @@ public class Main extends Application {
                 popup.close();
             }
         });
-    }
+    }    
     
+    private void diary(String name){ 
+        //Sets up the scene
+        GridPane grid = new GridPane();
+        listView = new ListView();
+        //TODO '.setItems' in 'listView' based on existing diaries for 'name' based on their 'id' (UUID)
+        grid.add(listView, 0, 0);
+        grid.getColumnConstraints().add(new ColumnConstraints(500));
+        grid.getRowConstraints().add(new RowConstraints(600));
+        TextArea input = new TextArea();
+        input.setMinSize(500, 150);
+        input.setWrapText(true);
+        input.setPromptText("Write here..");
+        VBox vbox = new VBox();
+        vbox.setPrefWidth(80.0);
+        vbox.setAlignment(Pos.TOP_CENTER);
+        vbox.setSpacing(30.0);
+        vbox.setPadding(new Insets(100, 10, 10, 10));
+        grid.add(vbox, 1, 0);
+        Button add = new Button("Add");
+        add.setMinWidth(vbox.getPrefWidth());
+        //NOTE this 'remove' should ONLY be availble for testing
+        Button remove = new Button("Remove");
+        remove.setMinWidth(vbox.getPrefWidth());
+        Button back = new Button("Back");
+        grid.add(back, 1, 1);
+        
+        //Date getter, delete if automatic timestamp is not needed in diary
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        
+        if("Caregiver".equals(type)){
+            grid.add(input, 0, 1);
+            vbox.getChildren().add(add);
+            vbox.getChildren().add(remove);
+        }
+        
+        Scene scene = new Scene(grid, 600, 780);
+        Stage diary = new Stage();
+        diary.setScene(scene);
+        diary.setTitle(name+ " Diary");
+        stage.close();
+        diary.show();
+                
+        //Adds functinality to buttons and listView
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                //TODO remove the Date info before putting it into the 'input' TextArea
+                input.setText(newValue);
+            }
+        });        
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                diary.close();
+                stage.show();
+            }
+        });
+        add.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if (isValid(input.getText())){
+                    //TODO save additions permanently in another layer
+                    Date date = new Date();
+                listView.getItems().add(dateFormat.format(date)+"\n"+input.getText());
+                }
+            }
+        });
+        //NOTE this 'remove' should ONLY be available for testing
+        remove.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
+            }
+        });
+    }
 }
