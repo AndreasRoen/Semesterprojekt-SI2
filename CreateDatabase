@@ -1,0 +1,33 @@
+CREATE DATABASE "Socialportalen"
+    WITH 
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    LC_COLLATE = 'Danish_Denmark.1252'
+    LC_CTYPE = 'Danish_Denmark.1252'
+    TABLESPACE = pg_default
+    CONNECTION LIMIT = -1;
+
+GRANT ALL ON DATABASE "Socialportalen" TO postgres;
+
+GRANT TEMPORARY, CONNECT ON DATABASE "Socialportalen" TO PUBLIC;
+
+
+Create Table if not exists Bruger(
+    Person_id int not null PRIMARY KEY,
+    Name varchar(130) not null ,
+    lastName varchar(200) not null,
+    Role_id int not null,
+    Socialportalen_Ts char(26)	
+); 
+	
+Create Table if not exists Bruger_informationer(
+	Person_id int not null PRIMARY KEY,
+	Password varchar(130) not null ,
+	Kommune1 varchar(200) not null,
+	Kommune2 varchar(200),
+	Kommune3 varchar(200),
+	Bosted1 Varchar(200) not null,
+	Bosted2 Varchar(200),
+	Bosted3 Varchar(200),
+	Socialportalen_Ts char(26)
+); 
