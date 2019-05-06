@@ -31,3 +31,26 @@ Create Table if not exists Bruger_informationer(
 	Bosted3 Varchar(200),
 	Socialportalen_Ts char(26)
 ); 
+
+
+CREATE TABLE if not exists staff(
+    Person_id int not null PRIMARY KEY,
+    Kommune1 varchar(200) not null,
+	Kommune2 varchar(200),
+	Kommune3 varchar(200),
+	Bosted1 Varchar(200) not null,
+	Bosted2 Varchar(200),
+	Bosted3 Varchar(200),
+    Role_id int not null,
+    Socialportalen_Ts char(26)
+
+);
+
+CREATE TABLE if not exists residents(
+    Person_id int not null PRIMARY KEY,
+    Kommune1 varchar(200) not null,
+	Bosted1 Varchar(200) not null,
+    PermissionLevel int,
+    Socialportalen_Ts char(26)
+
+);
