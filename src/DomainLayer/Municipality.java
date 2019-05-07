@@ -1,16 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DomainLayer;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-/**
- *
- * @author andre
- */
 public class Municipality {
+    private String name;
+    private UUID id;
+    
+    public Municipality(String name){
+        this.name = name;
+        this.id = UUID.randomUUID();
+    }
+    
     private ArrayList<Institution> institutions = new ArrayList<>();
+    
+    public String getName(){
+        return name;
+    }
+    
+    public UUID getId(){
+        return id;
+    }
+    
+    public Institution getInstitution(UUID id){
+        for (Institution i : institutions){
+            if(i.getId().equals(id)){
+                return i;
+            }
+        }
+        return null;
+    }
 }

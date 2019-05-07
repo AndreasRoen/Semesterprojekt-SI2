@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DomainLayer;
 
-/**
- *
- * @author andre
- */
 public class Employee extends Person{
     
-    public Employee(String name) {
-        super(name);
+    public Employee(String name, UserType.type type) {
+        super(name, type);
     }
 }

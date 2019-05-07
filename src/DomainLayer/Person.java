@@ -1,30 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package DomainLayer;
 
 import java.util.UUID;
 
-/**
- *
- * @author andre
- */
-class Person {
-    
+//TODO (maybe) change name to user and make it the only class that is generated as users
+abstract class Person {
+
     private UUID id;
     private String name;
+    private UserType.type type;
 
-    public Person(String name) {
+    public Person(String name, UserType.type type) {
         this.id = UUID.randomUUID();
         this.name = name;
+        this.type = type;
     }
-    
-    public UUID getId(){
+
+    public UUID getId() {
         return id;
     }
-    public String getName(){
+
+    public String getName() {
         return name;
+    }
+
+    public UserType.type getType() {
+        return type;
     }
 }
