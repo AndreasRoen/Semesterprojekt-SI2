@@ -153,6 +153,7 @@ public class Main extends Application {
         modules.setPadding(new Insets(25, 25, 25, 25));
         modules.setSpacing(20.0);
         moduleGrid.setCenter(modules);
+        //TODO (maybe) make modues modular, so that modules are automaticly detected and added
         Button diary = new Button();
         diary.setText("Diary");        
         Button calender = new Button();
