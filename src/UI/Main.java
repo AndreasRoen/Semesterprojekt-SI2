@@ -411,6 +411,7 @@ public class Main extends Application {
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                //NOTE 'isValid' is not necessarily needed since only approved users have access
                 if (isValid(input.getText())){
                     //TODO save additions permanently in another layer
                     Date date = new Date();
