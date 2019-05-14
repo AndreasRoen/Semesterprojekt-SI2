@@ -1,8 +1,8 @@
 
 package DomainLayer;
 
-class UserType {
-    enum type{
+public class UserType {
+    public enum type{
         ADMIN, USER, RESIDENT;
     }
 }

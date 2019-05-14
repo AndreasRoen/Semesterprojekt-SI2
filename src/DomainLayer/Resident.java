@@ -3,8 +3,8 @@ package DomainLayer;
 
 public class Resident extends Person{
     
-    public Resident(String name, UserType.type type) {
-        super(name, type);
+    public Resident(String name) {
+        super(name, UserType.type.RESIDENT);
     }
     
     

@@ -10,5 +10,7 @@ package DataLayer;
  * @author andre
  */
 public class Loader {
-    
+    public Loader(){
+        System.out.println("Loader loaded");
+    }
 }
