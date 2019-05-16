@@ -1,4 +1,3 @@
-
 package Modules;
 
 import DomainLayer.PresentationInterface;
@@ -6,7 +5,6 @@ import DomainLayer.UserType;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 import javafx.beans.value.ChangeListener;
@@ -25,32 +23,31 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+public class Diary extends Module {
 
-public class Diary extends Module{
-    
     private UUID diaryOwner;
-    
+
     //List of usertypes, for which this module is available
     private ArrayList<UserType.type> availables;
-    
+
     public Diary(PresentationInterface p) {
         super(p);
         availables = new ArrayList<>();
     }
-    
-    public void setOwner(UUID id){
+
+    public void setOwner(UUID id) {
         diaryOwner = id;
     }
-    
-    public UUID getOwner(){
+
+    public UUID getOwner() {
         return diaryOwner;
     }
-    
+
     @Override
-    public String getName(){
+    public String getName() {
         return "Diary";
     }
-    
+
     @Override
     public void showScene(Stage previousStage) {
         previousStage.hide();
@@ -83,13 +80,13 @@ public class Diary extends Module{
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
         grid.add(input, 0, 1);
-        
+
         //TODO check if user type is resident or user
-        if(pI.currentUserType() == UserType.type.USER){
+        if (pI.currentUserType() == UserType.type.USER) {
             vbox.getChildren().add(add);
             vbox.getChildren().add(remove);
         }
-        
+
         Scene scene = new Scene(grid, 600, 780);
         Stage diary = new Stage();
         diary.setScene(scene);
@@ -99,8 +96,8 @@ public class Diary extends Module{
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                //TODO remove the Date info before putting it into the 'input' TextArea
-                input.setText(newValue);
+                String s = newValue.substring(newValue.indexOf('\n')+1);
+                input.setText(s);
             }
         });
         back.setOnAction(new EventHandler<ActionEvent>() {
@@ -115,8 +112,8 @@ public class Diary extends Module{
             public void handle(ActionEvent event) {
                 //TODO save additions permanently in another layer
                 Date date = new Date();
-                //TODO add users name after date but before input text.
-                listView.getItems().add(dateFormat.format(date) + "\n" + input.getText());
+                //TODO add users name instead of 'pI.getID' if possible, else keep the ID.
+                listView.getItems().add(dateFormat.format(date) + "  by: " + pI.getID() + "\n" + input.getText());
             }
         });
 
