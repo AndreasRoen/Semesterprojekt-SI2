@@ -112,6 +112,8 @@ public class Diary extends Module {
             public void handle(ActionEvent event) {
                 //TODO save additions permanently in another layer
                 Date date = new Date();
+                //Please for this horrible line of code
+                listView.getItems().add("--------------------------------------------------------------------------------");
                 //TODO add users name instead of 'pI.getID' if possible, else keep the ID.
                 listView.getItems().add(dateFormat.format(date) + "  by: " + pI.getID() + "\n" + input.getText());
             }
