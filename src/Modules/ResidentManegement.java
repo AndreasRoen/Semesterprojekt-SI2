@@ -18,6 +18,11 @@ public class ResidentManegement extends Module{
         super(p);
         avaiables.add(UserType.type.ADMIN);
     }
+    
+    @Override
+    public String getName(){
+        return "Resident Manegement";
+    }
 
     @Override
     public void showScene(Stage previousStage) {
