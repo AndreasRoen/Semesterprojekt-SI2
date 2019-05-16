@@ -33,8 +33,6 @@ public abstract class Module {
     //Returns the 'Scene' for the module
     public abstract void showScene(Stage previousStage);
     
-    public abstract String getName();
-    
     //Returns an array of usertypes, for which this module is available
     public abstract ArrayList<UserType.type> getAvailableTypes();
     

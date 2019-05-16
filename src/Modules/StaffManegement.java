@@ -18,11 +18,6 @@ public class StaffManegement extends Module{
         super(p);
         avaiables.add(UserType.type.ADMIN);
     }
-    
-    @Override
-    public String getName(){
-        return "Staff Manegement";
-    }
 
     @Override
     public void showScene(Stage previousStage) {

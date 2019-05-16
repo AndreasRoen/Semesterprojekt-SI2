@@ -34,11 +34,6 @@ public class Diary extends Module{
         avaiables.add(UserType.type.USER);
     }
     
-    @Override
-    public String getName(){
-        return "Diary";
-    }
-    
     public void showScene(Stage previousStage) {
         //Sets up the scene
         GridPane grid = new GridPane();

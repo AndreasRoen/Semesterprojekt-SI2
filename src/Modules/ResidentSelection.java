@@ -18,11 +18,6 @@ public class ResidentSelection extends Module{
         super(p);
         avaiables.add(UserType.type.ADMIN);
     }
-    
-    @Override
-    public String getName(){
-        return "Resident Selection";
-    }
 
     @Override
     public void showScene(Stage previousStage) {
