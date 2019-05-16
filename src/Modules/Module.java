@@ -3,6 +3,7 @@ package Modules;
 
 import DomainLayer.PresentationInterface;
 import DomainLayer.UserType;
+import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -10,9 +11,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -30,15 +34,14 @@ public abstract class Module {
     public abstract void showScene(Stage previousStage);
     
     //Returns an array of usertypes, for which this module is available
-    public abstract UserType.type[] getAvailableTypes();
+    public abstract ArrayList<UserType.type> getAvailableTypes();
     
-    //Returns the template overview scene, takes the wanted list and buttons as argument
+    //Returns the overview scene generated based on its arguments
     /*The first argument is the previous stage, this allows the method to return to the previous scene once the 'back' button is pressed.
      *The second argument is the list that should be shown in the scene.
      *The third argument is an boolean array that says which buttons should be added.
      *The fourth argument is a boolean that says wether there should be a textarea*/
-    public void overViewTemplate(Stage previousStage, ObservableList<String> wantedList, Boolean[] buttons, boolean textArea){
-        //TODO add textarea somewhere if 'textArea' is true
+    public void overViewTemplate(Stage previousStage, ObservableList<String> wantedList, Boolean[] buttons){
         //Sets up overview scene
         GridPane grid = new GridPane();
         ListView listView = new ListView();
@@ -86,7 +89,7 @@ public abstract class Module {
             @Override
             public void handle(ActionEvent event) {
                 //TODO save changes permanently
-                listView.getItems().add(listView.getSelectionModel().getSelectedIndices());
+                listPromt();
             }
         });
         remove.setOnAction(new EventHandler<ActionEvent>() {
@@ -104,5 +107,49 @@ public abstract class Module {
                 previousStage.show();
             }
         }); 
+    }
+    
+    private void listPromt() {
+        //Sets up popup window
+        GridPane pop = new GridPane();
+        pop.setPadding(new Insets(25, 25, 25, 25));
+        pop.setVgap(15.0);
+        pop.setHgap(10.0);
+        Label nameLabel = new Label("Name");
+        nameLabel.setAlignment(Pos.CENTER);
+        pop.add(nameLabel, 0, 0);
+        TextField name = new TextField();
+        pop.add(name, 0, 1);
+        Label status = new Label("");
+        pop.add(status, 0, 2);
+        HBox hbox = new HBox();
+        hbox.setSpacing(20.0);
+        Button confirm = new Button("Confirm");
+        hbox.getChildren().add(confirm);
+        Button cancel = new Button("Cancel");
+        hbox.getChildren().add(cancel);
+        pop.add(hbox, 1, 2);
+
+        //Shows popup window
+        Scene popupScene = new Scene(pop, 450, 200);
+        Stage popup = new Stage();
+        popup.setScene(popupScene);
+        popup.show();
+
+        //Adds functionality to buttons in popup window
+        confirm.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                //TODO save additions permanently in another layer
+                
+                popup.close();
+            }
+        });
+        cancel.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                popup.close();
+            }
+        });
     }
 }

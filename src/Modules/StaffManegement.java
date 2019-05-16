@@ -4,17 +4,19 @@ package Modules;
 import DomainLayer.PresentationInterface;
 import DomainLayer.UserType;
 import Modules.Module;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
 
-public class StaffOverviewGUI extends Module{
+public class StaffManegement extends Module{
     
     //List of usertypes, for which this module is available
-    final private UserType.type[] avaiables = {UserType.type.ADMIN};
+    private ArrayList<UserType.type> avaiables;
 
-    public StaffOverviewGUI(PresentationInterface p) {
+    public StaffManegement(PresentationInterface p) {        
         super(p);
+        avaiables.add(UserType.type.ADMIN);
     }
 
     @Override
@@ -26,11 +28,11 @@ public class StaffOverviewGUI extends Module{
         wantedList.add("Henry");
         
         Boolean[] buttons = {false, true, true};
-        super.overViewTemplate(previousStage, wantedList, buttons, false);
+        super.overViewTemplate(previousStage, wantedList, buttons);
     }
 
     @Override
-    public UserType.type[] getAvailableTypes() {
+    public ArrayList<UserType.type> getAvailableTypes() {
         return avaiables;
     }
     

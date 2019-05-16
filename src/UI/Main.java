@@ -36,12 +36,16 @@ public class Main extends Application {
 
     private Stage stage;
 
+    //TODO let 'currentUserType' in domain layer be used instead of 'type'
     private UserType.type type;
 
+    //TODO remove? (then get wantedLists from pI interface)
     private ObservableList<String> residents;
 
+    //TODO remove? (then get WantedList from pI interface)
     private ObservableList<String> staff;
 
+    //TODO move to domain layer
     private UUID userId;
 
     private PresentationInterface pI;
@@ -100,8 +104,7 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 if (pI.validLogin(txUsername.getText(), txPassword.getText())) {
-                    userId = pI.getID(txUsername.getText(), txPassword.getText());
-                    type = pI.getType(userId);
+                    pI.setID(txUsername.getText(), txPassword.getText());
                     moduleSelection();
                 } else {
                     status.setText("Invalid Username / Password");
@@ -139,7 +142,8 @@ public class Main extends Application {
         moduleGrid.setBottom(backBox);
 
         //Enable buttons available to user type
-        if ("Admin".equals(type)) {
+        //TODO change button addition to Domain layer
+        if(type == UserType.type.ADMIN){
             modules.getChildren().add(manageStaff);
             modules.getChildren().add(manageResidents);
         } else {
@@ -153,7 +157,7 @@ public class Main extends Application {
         diary.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if ("Caregiver".equals(type)) {
+                if (type == UserType.type.USER) {
                     overview("Residents");
                 } else {
                     //TODO set user id as argument
@@ -165,7 +169,7 @@ public class Main extends Application {
         calender.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                //TODO open calender (Should not be implemented)
+                //TODO open calender (Not being implemented in this project)
             }
         });
         manageStaff.setOnAction(new EventHandler<ActionEvent>() {
@@ -188,6 +192,7 @@ public class Main extends Application {
         });
     }
 
+    //TODO delete method when modules are fully implemnted
     private void overview(String wantedList) {
         //Sets up overview scene
         GridPane grid = new GridPane();
@@ -211,11 +216,11 @@ public class Main extends Application {
         grid.add(vbox, 1, 0);
 
         //Sets content of 'Overview' based on user type and 'wantedList'
-        if ("Admin".equals(type)) {
+        if (type == UserType.type.ADMIN) {
             vbox.getChildren().add(add);
             vbox.getChildren().add(remove);
         }
-        if ("Caregiver".equals(type)) {
+        if (type == UserType.type.USER) {
             vbox.getChildren().add(select);
         }
 
@@ -258,6 +263,7 @@ public class Main extends Application {
         });
     }
 
+    //TODO delete method when modules are fully implemented
     private void listPromt(String namePrompt) {
         //Sets up popup window
         GridPane pop = new GridPane();
@@ -303,6 +309,7 @@ public class Main extends Application {
         });
     }
 
+    //TODO delete method when modules are fully implemented
     private void diary(String name) {
         //Sets up the scene
         GridPane grid = new GridPane();
@@ -332,7 +339,7 @@ public class Main extends Application {
         //Date getter, delete if automatic timestamp is not needed in diary
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-        if ("Caregiver".equals(type)) {
+        if (type == UserType.type.USER) {
             grid.add(input, 0, 1);
             vbox.getChildren().add(add);
             vbox.getChildren().add(remove);
