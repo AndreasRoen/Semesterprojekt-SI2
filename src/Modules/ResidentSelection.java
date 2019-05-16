@@ -5,6 +5,7 @@ import DomainLayer.PresentationInterface;
 import DomainLayer.UserType;
 import Modules.Module;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
@@ -16,7 +17,12 @@ public class ResidentSelection extends Module{
 
     public ResidentSelection(PresentationInterface p) {
         super(p);
-        avaiables.add(UserType.type.ADMIN);
+        avaiables = new ArrayList<>();
+    }
+    
+    @Override
+    public String getName(){
+        return "Resident Selection";
     }
 
     @Override

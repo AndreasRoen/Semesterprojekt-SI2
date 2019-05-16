@@ -6,6 +6,7 @@ import DomainLayer.UserType;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,7 +32,12 @@ public class Diary extends Module{
     
     public Diary(PresentationInterface p) {
         super(p);
-        avaiables.add(UserType.type.USER);
+        avaiables = new ArrayList<>(Arrays.asList(UserType.type.USER));
+    }
+    
+    @Override
+    public String getName(){
+        return "Diary";
     }
     
     public void showScene(Stage previousStage) {

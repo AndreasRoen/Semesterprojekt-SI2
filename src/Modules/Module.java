@@ -30,6 +30,9 @@ public abstract class Module {
         this.pI = p;
     }
     
+    //Returns name of module
+    public abstract String getName();
+    
     //Returns the 'Scene' for the module
     public abstract void showScene(Stage previousStage);
     
