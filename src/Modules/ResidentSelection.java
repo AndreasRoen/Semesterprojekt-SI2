@@ -12,21 +12,22 @@ import javafx.stage.Stage;
 
 public class ResidentSelection extends Module{
     
-    //List of usertypes, for which this module is available
-    private ArrayList<UserType.type> avaiables;
+    //List of usertypes, for which this module is available in the module selection menu
+    private ArrayList<UserType.type> availables;
 
     public ResidentSelection(PresentationInterface p) {
         super(p);
-        avaiables = new ArrayList<>();
+        availables = new ArrayList<>(Arrays.asList(UserType.type.USER));
     }
     
     @Override
     public String getName(){
-        return "Resident Selection";
+        return "Diary";
     }
 
     @Override
     public void showScene(Stage previousStage) {
+        previousStage.hide();
         //Sets up input for the 'overView' template in the 'Module' class and returns the generated scene
         ObservableList<String> wantedList = FXCollections.observableArrayList();
         //TODO add the wanted list to 'wantedList'
@@ -39,6 +40,6 @@ public class ResidentSelection extends Module{
 
     @Override
     public ArrayList<UserType.type> getAvailableTypes() {
-        return avaiables;
+        return availables;
     }
 }

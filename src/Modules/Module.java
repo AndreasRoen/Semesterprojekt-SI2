@@ -42,9 +42,9 @@ public abstract class Module {
     //Returns the overview scene generated based on its arguments
     /*The first argument is the previous stage, this allows the method to return to the previous scene once the 'back' button is pressed.
      *The second argument is the list that should be shown in the scene.
-     *The third argument is an boolean array that says which buttons should be added.
-     *The fourth argument is a boolean that says wether there should be a textarea*/
+     *The third argument is an boolean array that says which buttons should be added.*/
     public void overViewTemplate(Stage previousStage, ObservableList<String> wantedList, Boolean[] buttons){
+        previousStage.hide();
         //Sets up overview scene
         GridPane grid = new GridPane();
         ListView listView = new ListView();
@@ -85,7 +85,8 @@ public abstract class Module {
             @Override
             public void handle(ActionEvent event) {
                 //TODO open diary overview (as select should only be avaiable to caregivers
-                
+                Diary d = new Diary(pI);
+                d.showScene(stage);
             }
         });
         add.setOnAction(new EventHandler<ActionEvent>() {

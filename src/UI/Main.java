@@ -127,7 +127,7 @@ public class Main extends Application {
         //TODO make modues modular, so that modules are automaticly detected and added
         //TODO load every module in 'Modules' package and add them to HBox in scene as new 'Module'
         
-        //TODO call the 'getScene' of selected 'Module', then that scene while hiding the 'moduleSelection' scene
+        //Adds every module available for the usertype
         for (Module m : pI.getAvaiableModules()){
             Button b = new Button(m.getName());
             b.setOnAction(new EventHandler<ActionEvent>() {
@@ -138,71 +138,24 @@ public class Main extends Application {
             });
             modules.getChildren().add(b);
         }
-//        Button diary = new Button();
-//        diary.setText("Diary");
-//        Button calender = new Button();
-//        calender.setText("Calender");
-//        Button manageStaff = new Button();
-//        manageStaff.setText("Manage Staff");
-//        Button manageResidents = new Button();
-//        manageResidents.setText("Manage Residents");
-//        Button back = new Button();
-//        back.setText("Back");
-//        HBox backBox = new HBox();
-//        backBox.getChildren().add(back);
-//        backBox.setAlignment(Pos.CENTER_RIGHT);
-//        backBox.setPadding(new Insets(25, 25, 25, 25));
-//        moduleGrid.setBottom(backBox);
-//
-//        //Enable buttons available to user type
-//        //TODO change button addition to Domain layer
-//        if(type == UserType.type.ADMIN){
-//            modules.getChildren().add(manageStaff);
-//            modules.getChildren().add(manageResidents);
-//        } else {
-//            modules.getChildren().add(diary);
-//            modules.getChildren().add(calender);
-//        }
+        
+        Button back = new Button();
+        back.setText("Back");
+        HBox backBox = new HBox();
+        backBox.getChildren().add(back);
+        backBox.setAlignment(Pos.CENTER_RIGHT);
+        backBox.setPadding(new Insets(25, 25, 25, 25));
+        moduleGrid.setBottom(backBox);
 
         Scene scene = new Scene(moduleGrid, 450, 300);
         stage.setScene(scene);
 
-//        diary.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                if (type == UserType.type.USER) {
-//                    overview("Residents");
-//                } else {
-//                    //TODO set user id as argument
-//                    //TODO make 'diary' open diary of the user with the id as argument.
-//                    diary("");
-//                }
-//            }
-//        });
-//        calender.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                //TODO open calender (Not being implemented in this project)
-//            }
-//        });
-//        manageStaff.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                overview("Staff");
-//            }
-//        });
-//        manageResidents.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                overview("Residents");
-//            }
-//        });
-//        back.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                login();
-//            }
-//        });
+        back.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                login();
+            }
+        });
     }
 
     //TODO delete method when modules are fully implemnted

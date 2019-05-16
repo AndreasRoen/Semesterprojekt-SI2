@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -27,12 +28,22 @@ import javafx.stage.Stage;
 
 public class Diary extends Module{
     
+    private UUID diaryOwner;
+    
     //List of usertypes, for which this module is available
-    private ArrayList<UserType.type> avaiables;
+    private ArrayList<UserType.type> availables;
     
     public Diary(PresentationInterface p) {
         super(p);
-        avaiables = new ArrayList<>(Arrays.asList(UserType.type.USER));
+        availables = new ArrayList<>();
+    }
+    
+    public void setOwner(UUID id){
+        diaryOwner = id;
+    }
+    
+    public UUID getOwner(){
+        return diaryOwner;
     }
     
     @Override
@@ -40,7 +51,9 @@ public class Diary extends Module{
         return "Diary";
     }
     
+    @Override
     public void showScene(Stage previousStage) {
+        previousStage.hide();
         //Sets up the scene
         GridPane grid = new GridPane();
         ListView listView = new ListView();
@@ -117,6 +130,6 @@ public class Diary extends Module{
 
     @Override
     public ArrayList<UserType.type> getAvailableTypes() {
-        return avaiables;
+        return availables;
     }
 }
