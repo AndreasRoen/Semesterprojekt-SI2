@@ -17,15 +17,15 @@ public class ConnectToDb
     // TODO SET all tablenames to the correct naming from tables. 
     public static final String DB_NAME = "postgres";
     public static final String CONNECTION_STRING = "jdbc:postgresql://localhost:5432/" + DB_NAME; 
-    public static final String TABLE_NAME = "contacts"; 
-    public static final String COLUMN_NAME = "Blabla"; 
+    public static final String TABLE_NAME = ""; 
+    public static final String COLUMN_NAME = ""; 
     public static final int COLUMN_PERSON_ID = 0; 
-    public static final String COLUMN_LASTNAME = "Blabla"; 
-    public static final String COLUMN_ROLEID = "Blabla"; 
-    public static final String COLUMN_KOMMUNE = "Blabla"; 
-    public static final String COLUMN_TS = "Blabla"; 
-    public static final String COLUMN_BOSTED = "Blabla"; 
-    public static final String COLUMN_PASSWORD = "Blabla"; 
+    public static final String COLUMN_LASTNAME = ""; 
+    public static final String COLUMN_ROLEID = ""; 
+    public static final String COLUMN_KOMMUNE = ""; 
+    public static final String COLUMN_TS = ""; 
+    public static final String COLUMN_BOSTED = ""; 
+    public static final String COLUMN_PASSWORD = ""; 
  
     private Connection connection; 
     
