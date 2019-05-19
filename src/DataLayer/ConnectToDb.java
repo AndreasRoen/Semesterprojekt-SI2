@@ -39,8 +39,6 @@ public class ConnectToDb
         Statement statement = connection.createStatement();
         statement.execute("CREATE DATABASE IF NOT EXISTS SOCIALPORTALEN"); 
         
-//        statement.execute("SELECT * FROM DB");
-//        ResultSet result = statement.getResultSet();
         ResultSet result = statement.executeQuery("SELECT * from "+ TABLE_NAME); 
         
         
@@ -59,15 +57,7 @@ public class ConnectToDb
     
 }
     
-//    private void executeSQL(){
-//        if(connection == null){
-//            System.out.println("Please connect to a database first"); // Should be printed to the GUI
-//            return;
-//        }else{
-//            
-//        }
-//    }
-//    
+    
     private static void addUser(Statement statement,int Person_ID, String name, String lastName, int role_ID, String SocialPortalenTs) throws SQLException{
         statement.execute("INSERT INTO " + TABLE_NAME +
                 " ("+COLUMN_PERSON_ID +", "
@@ -102,7 +92,7 @@ public class ConnectToDb
                  + "" + COLUMN_ROLEID + " , "        
                  + "" + COLUMN_TS +
                  ") " +
-                "VALUES(" + Person_ID + ", '" + name + "', '" + lastName + "'," + role_ID + ",'" + SocialPortalenTs + "')");    //TODO set in the right parameters for staff     
+                "VALUES(" + Person_ID + ", '" + ¤name¤ + "', '" + ¤lastName¤ + "'," + role_ID + ",'" + SocialPortalenTs + "')");    //TODO set in the right parameters for staff    
         
     }
     private void addResident(Statement statement,int Person_ID, String password, String Kommune1,String bosted1, int role_ID, String SocialPortalenTs)throws SQLException{
