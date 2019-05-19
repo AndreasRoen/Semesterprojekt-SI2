@@ -13,7 +13,8 @@ import java.sql.*;
 public class ConnectToDb
 {
     
-    // ALL PARAMTERES HAS TO BE SET IN THE INTERFACE FOR THE USE OF ADMINS ONLY 
+    // ALL PARAMTERES HAS TO BE SET IN THE INTERFACE FOR THE USE OF ADMINS ONLY
+    // TODO SET all tablenames to the correct naming from tables. 
     public static final String DB_NAME = "postgres";
     public static final String CONNECTION_STRING = "jdbc:postgresql://localhost:5432/" + DB_NAME; 
     public static final String TABLE_NAME = "contacts"; 
