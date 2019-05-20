@@ -375,6 +375,7 @@ public class Main extends Application {
         Button remove = new Button("Remove");
         remove.setMinWidth(vbox.getPrefWidth());
         Button back = new Button("Back");
+        Button autoGen = new Button("AutoGen");
         grid.add(back, 1, 1);
         
         //Date getter, delete if automatic timestamp is not needed in diary
@@ -384,6 +385,7 @@ public class Main extends Application {
             grid.add(input, 0, 1);
             vbox.getChildren().add(add);
             vbox.getChildren().add(remove);
+            vbox.getChildren().add(autoGen);
         }
         
         Scene scene = new Scene(grid, 600, 780);
@@ -426,5 +428,6 @@ public class Main extends Application {
                 listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
             }
         });
+        
     }
 }
