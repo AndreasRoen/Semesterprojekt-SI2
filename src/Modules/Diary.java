@@ -6,7 +6,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -22,10 +25,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Diary extends Module {
 
     private UUID diaryOwner;
+    
+    Random r = new Random();
 
     //List of usertypes, for which this module is available
     private ArrayList<UserType.type> availables;
@@ -74,6 +80,8 @@ public class Diary extends Module {
 //        Button remove = new Button("Remove");
 //        remove.setMinWidth(vbox.getPrefWidth());
         Button back = new Button("Back");
+        Button autoGen = new Button("AutoGen");
+        Button stopGen = new Button("Stop Auto");
         grid.add(back, 1, 1);
 
         //Date getter, delete if automatic timestamp is not needed in diary
@@ -84,6 +92,8 @@ public class Diary extends Module {
         //TODO check if user type is resident or user
         if (pI.currentUserType() == UserType.type.USER) {
             vbox.getChildren().add(add);
+            vbox.getChildren().add(autoGen);
+            vbox.getChildren().add(stopGen);
 //            vbox.getChildren().add(remove);
         }
 
@@ -116,6 +126,45 @@ public class Diary extends Module {
                 listView.getItems().add("--------------------------------------------------------------------------------");
                 //TODO add users name instead of 'pI.getID' if possible, else keep the ID.
                 listView.getItems().add(dateFormat.format(date) + "  by: " + pI.getID() + "\n" + input.getText());
+            }
+        });
+        
+        Timeline autoGenMessage = new Timeline(new KeyFrame(Duration.seconds(r.nextInt(8 - 2 + 1) + 2), new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Date date = new Date();
+                String[] messages = new String[12];
+                messages[0] = "Borger har modtaget penicillin";
+                messages[1] = "Borger har modtaget insulin";
+                messages[2] = "Borger har modtaget paracetamol";
+                messages[3] = "Borger har modtaget melatonin";
+                messages[4] = "Borger har modtaget halcion";
+                messages[5] = "Borgeren har været i bad";
+                messages[6] = "Borgeren har gået en tur";
+                messages[7] = "Borgeren har sovet middagslur";
+                messages[8] = "Borgeren har spidst frokost";
+                messages[9] = "Borgeren har været til lægen";
+                messages[10] = "Borgeren har haft besøg af familien";
+                messages[11] = "Borgeren har været sur hele morgenen";
+                
+                //TODO save additions permanently
+                listView.getItems().add("--------------------------------------------------------------------------------");
+                listView.getItems().add(dateFormat.format(date) + "  by: AutoGen" + "\n" + messages[r.nextInt(messages.length)]);
+            }
+        }));
+        autoGenMessage.setCycleCount(Timeline.INDEFINITE);
+        
+        autoGen.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                autoGenMessage.play();
+            }
+        });
+        stopGen.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                autoGenMessage.stop();
             }
         });
 
