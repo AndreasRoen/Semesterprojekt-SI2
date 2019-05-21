@@ -9,7 +9,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -32,27 +39,31 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
  * @author andre
  */
 public class Main extends Application {
-    
+
     private Stage stage;
-    
+
     private String type;
-    
+
     private ObservableList<String> residents;
-    
+
     private ObservableList<String> staff;
-    
+
     //TODO use userId to fetch ObserableLists from other layers
     private UUID userId;
-    
+
     private ListView listView;
+
+    private boolean toggleOn;
     
-    
+    Random r = new Random();
+
     @Override
     public void start(Stage primaryStage) {
         this.stage = primaryStage;
@@ -72,12 +83,12 @@ public class Main extends Application {
         staff.add("Erik");
         login();
     }
-    
+
     public static void main(String[] args) {
         Locale.setDefault(Locale.ENGLISH);
         launch(args);
     }
-    
+
     private void login() {
         //Sets up login screen
         GridPane loginGrid = new GridPane();
@@ -111,9 +122,9 @@ public class Main extends Application {
                 }
             }
         });
-        
+
     }
-    
+
     private boolean validLogin(String username, String password) {
         if (isValid(username) && isValid(password)) {
             //TODO check with existing accounts in DATA layer
@@ -123,7 +134,7 @@ public class Main extends Application {
             } else if ("admin".equals(username) && "pass".equals(password)) {
                 type = "Admin";
                 return true;
-            } else if ("resident".equals(username) && "pass".equals(password)){
+            } else if ("resident".equals(username) && "pass".equals(password)) {
                 type = "Resident";
                 return true;
             } else {
@@ -133,7 +144,7 @@ public class Main extends Application {
             return false;
         }
     }
-    
+
     private boolean isValid(String string) {
         char[] stringToCharArray = string.toCharArray();
         boolean test = true;
@@ -144,7 +155,7 @@ public class Main extends Application {
         }
         return test;
     }
-    
+
     private void moduleSelection() {
         //Sets up module selection scene
         BorderPane moduleGrid = new BorderPane();
@@ -155,13 +166,13 @@ public class Main extends Application {
         moduleGrid.setCenter(modules);
         //TODO (maybe) make modues modular, so that modules are automaticly detected and added
         Button diary = new Button();
-        diary.setText("Diary");        
+        diary.setText("Diary");
         Button calender = new Button();
-        calender.setText("Calender");        
+        calender.setText("Calender");
         Button manageStaff = new Button();
-        manageStaff.setText("Manage Staff");        
+        manageStaff.setText("Manage Staff");
         Button manageResidents = new Button();
-        manageResidents.setText("Manage Residents");        
+        manageResidents.setText("Manage Residents");
         Button back = new Button();
         back.setText("Back");
         HBox backBox = new HBox();
@@ -171,7 +182,6 @@ public class Main extends Application {
         moduleGrid.setBottom(backBox);
 
         //Enable buttons available to user type
-        
         if ("Admin".equals(type)) {
             modules.getChildren().add(manageStaff);
             modules.getChildren().add(manageResidents);
@@ -179,10 +189,10 @@ public class Main extends Application {
             modules.getChildren().add(diary);
             modules.getChildren().add(calender);
         }
-        
+
         Scene scene = new Scene(moduleGrid, 450, 300);
         stage.setScene(scene);
-        
+
         diary.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -192,7 +202,7 @@ public class Main extends Application {
                     //TODO set user id as argument
                     //TODO make 'diary' open diary of the user with the id as argument.
                     diary("");
-                }                
+                }
             }
         });
         calender.setOnAction(new EventHandler<ActionEvent>() {
@@ -220,7 +230,7 @@ public class Main extends Application {
             }
         });
     }
-    
+
     private void overview(String wantedList) {
         //Sets up overview scene
         GridPane grid = new GridPane();
@@ -237,35 +247,35 @@ public class Main extends Application {
         vbox.setSpacing(30.0);
         vbox.setPadding(new Insets(100, 10, 10, 10));
         Button add = new Button("Add");
-        add.setMinWidth(vbox.getPrefWidth());        
+        add.setMinWidth(vbox.getPrefWidth());
         Button edit = new Button("Edit");
-        edit.setMinWidth(vbox.getPrefWidth());        
+        edit.setMinWidth(vbox.getPrefWidth());
         Button remove = new Button("Remove");
-        remove.setMinWidth(vbox.getPrefWidth());        
+        remove.setMinWidth(vbox.getPrefWidth());
         Button select = new Button("Select");
         grid.add(vbox, 1, 0);
-        
+
         //Sets content of 'Overview' based on user type and 'wantedList'
-        if("Admin".equals(type)){
+        if ("Admin".equals(type)) {
             vbox.getChildren().add(add);
             vbox.getChildren().add(edit);
             vbox.getChildren().add(remove);
         }
-        if("Caregiver".equals(type)){
+        if ("Caregiver".equals(type)) {
             vbox.getChildren().add(select);
         }
-        
+
         //TODO make call to 'Domain' layer and get the wanted list from there
-        if("Staff".equals(wantedList)){
+        if ("Staff".equals(wantedList)) {
             listView.setItems(staff);
         }
-        if("Residents".equals(wantedList)){
+        if ("Residents".equals(wantedList)) {
             listView.setItems(residents);
         }
-        
+
         Scene scene = new Scene(grid, 600, 780);
         stage.setScene(scene);
-        
+
         select.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -301,11 +311,11 @@ public class Main extends Application {
             }
         });
     }
-    
-    private void listPromt(String namePrompt){
+
+    private void listPromt(String namePrompt) {
         //Sets up popup window
         GridPane pop = new GridPane();
-        pop.setPadding(new Insets(25,25,25,25));
+        pop.setPadding(new Insets(25, 25, 25, 25));
         pop.setVgap(15.0);
         pop.setHgap(10.0);
         Label nameLabel = new Label("Name");
@@ -323,18 +333,18 @@ public class Main extends Application {
         Button cancel = new Button("Cancel");
         hbox.getChildren().add(cancel);
         pop.add(hbox, 1, 2);
-        
+
         //Shows popup window
         Scene popupScene = new Scene(pop, 450, 200);
         Stage popup = new Stage();
         popup.setScene(popupScene);
         popup.show();
-        
+
         //Adds functionality to buttons in popup window
         confirm.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if (isValid(name.textProperty().getValue())){
+                if (isValid(name.textProperty().getValue())) {
                     //TODO save additions permanently in another layer
                     listView.getItems().add(name.textProperty().getValue());
                     popup.close();
@@ -349,9 +359,9 @@ public class Main extends Application {
                 popup.close();
             }
         });
-    }    
-    
-    private void diary(String name){ 
+    }
+
+    private void diary(String name) {
         //Sets up the scene
         GridPane grid = new GridPane();
         listView = new ListView();
@@ -376,25 +386,43 @@ public class Main extends Application {
         remove.setMinWidth(vbox.getPrefWidth());
         Button back = new Button("Back");
         Button autoGen = new Button("AutoGen");
+        Button stopGen = new Button("HaltAuto");
         grid.add(back, 1, 1);
-        
+
         //Date getter, delete if automatic timestamp is not needed in diary
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        
-        if("Caregiver".equals(type)){
+
+        if ("Caregiver".equals(type)) {
             grid.add(input, 0, 1);
             vbox.getChildren().add(add);
             vbox.getChildren().add(remove);
             vbox.getChildren().add(autoGen);
+            vbox.getChildren().add(stopGen);
         }
-        
+
         Scene scene = new Scene(grid, 600, 780);
         Stage diary = new Stage();
         diary.setScene(scene);
-        diary.setTitle(name+ " Diary");
+        diary.setTitle(name + " Diary");
         stage.close();
         diary.show();
-                
+        
+        Timeline autoGenMessage = new Timeline(new KeyFrame(Duration.seconds(r.nextInt(8 - 2 + 1) + 2), new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Date date = new Date();
+                String[] messages = new String[5];
+                messages[0] = "Borger har modtaget penicillin";
+                messages[1] = "Borger har modtaget insulin";
+                messages[2] = "Borger har modtaget paracetamol";
+                messages[3] = "Borger har modtaget melatonin";
+                messages[4] = "Borger har modtaget halcion";
+                listView.getItems().add(dateFormat.format(date) + "\n" + messages[r.nextInt(messages.length)]);
+            }
+        }));
+        autoGenMessage.setCycleCount(Timeline.INDEFINITE);
+
         //Adds functinality to buttons and listView
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -402,10 +430,11 @@ public class Main extends Application {
                 //TODO remove the Date info before putting it into the 'input' TextArea
                 input.setText(newValue);
             }
-        });        
+        });
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                toggleOn = false;
                 diary.close();
                 stage.show();
             }
@@ -414,10 +443,10 @@ public class Main extends Application {
             @Override
             public void handle(ActionEvent event) {
                 //NOTE 'isValid' is not necessarily needed since only approved users have access
-                if (isValid(input.getText())){
+                if (isValid(input.getText())) {
                     //TODO save additions permanently in another layer
                     Date date = new Date();
-                listView.getItems().add(dateFormat.format(date)+"\n"+input.getText());
+                    listView.getItems().add(dateFormat.format(date) + "\n" + input.getText());
                 }
             }
         });
@@ -431,8 +460,17 @@ public class Main extends Application {
         autoGen.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                autoGenMessage.play();
             }
         });
+        stopGen.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                autoGenMessage.stop();
+            }
+        });
+        
+        
     }
+
 }
