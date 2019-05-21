@@ -70,9 +70,9 @@ public class Diary extends Module {
         grid.add(vbox, 1, 0);
         Button add = new Button("Add");
         add.setMinWidth(vbox.getPrefWidth());
-        //NOTE this 'remove' should ONLY be availble for testing
-        Button remove = new Button("Remove");
-        remove.setMinWidth(vbox.getPrefWidth());
+//        //NOTE this 'remove' should ONLY be availble for testing
+//        Button remove = new Button("Remove");
+//        remove.setMinWidth(vbox.getPrefWidth());
         Button back = new Button("Back");
         grid.add(back, 1, 1);
 
@@ -84,7 +84,7 @@ public class Diary extends Module {
         //TODO check if user type is resident or user
         if (pI.currentUserType() == UserType.type.USER) {
             vbox.getChildren().add(add);
-            vbox.getChildren().add(remove);
+//            vbox.getChildren().add(remove);
         }
 
         Scene scene = new Scene(grid, 600, 780);
@@ -119,12 +119,12 @@ public class Diary extends Module {
             }
         });
 
-        remove.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
-            }
-        });
+//        remove.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
+//            }
+//        });
     }
 
     @Override
