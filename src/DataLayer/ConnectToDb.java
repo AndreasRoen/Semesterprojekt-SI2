@@ -4,16 +4,12 @@
  * and open the template in the editor.
  */
 package DataLayer;
-<<<<<<< HEAD
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-=======
-import java.sql.*;
->>>>>>> Data
 
 /**
  *
@@ -39,21 +35,21 @@ public class ConnectToDb {
     
     
     public void connection(){
-<<<<<<< HEAD
+
         
         try {
         Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","ASDqwe123"); // Username and password for your Database :) 
         conn.setAutoCommit(true); // Set false if Auto commit to DB is not wanted (It is guys ;P ) 
         Statement statement = conn.createStatement();
-=======
+
 //    try(Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","ASDqwe123"); // Username and password for your Database :) 
 //        Statement statement = connection.createStatement();){        
 //        statement.execute("CREATE DATABASE SOCIALPORTALEN"); 
     try{
         Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","ASDqwe123"); // Username and password for your Database :) 
         connection.setAutoCommit(true); // Set false if Auto commit to DB is not wanted (It is guys ;P ) 
-        Statement statement = connection.createStatement();
->>>>>>> Data
+        //Statement statement = connection.createStatement();
+
         statement.execute("CREATE DATABASE IF NOT EXISTS SOCIALPORTALEN"); 
         
         ResultSet result = statement.executeQuery("SELECT * from "+ TABLE_NAME); 
@@ -66,20 +62,19 @@ public class ConnectToDb {
         
         
         statement.close();
-<<<<<<< HEAD
+
         conn.close();
         } catch (SQLException e) {
         }
-=======
+
         connection.close();
     }catch(SQLException e) {
         System.out.println("Somehing went wrong "+ e.getMessage());
->>>>>>> Data
+
     }
     
 }
-<<<<<<< HEAD
-=======
+
     
     
     private static void addUser(Statement statement,int Person_ID, String name, String lastName, int role_ID, String SocialPortalenTs) throws SQLException{
