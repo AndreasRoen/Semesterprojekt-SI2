@@ -17,7 +17,7 @@ import java.util.List;
  *
  * 
  */
-public class ConnectToDb {
+public class DatabaseManager {
     
     // ALL PARAMTERES HAS TO BE SET IN THE INTERFACE FOR THE USE OF ADMINS ONLY
     // TODO SET all tablenames to the correct naming from tables. 
@@ -139,6 +139,11 @@ public class ConnectToDb {
         String test =  rs.toString();
         EncryptPassword.verifyUserPassword(givenPassword,test, salt); 
 
+        
+    }
+    
+    
+    private void CreateDatabase(){ //TODO Make Create database for all pcs 
         
     }
 }

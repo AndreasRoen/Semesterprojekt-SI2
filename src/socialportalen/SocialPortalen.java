@@ -5,7 +5,7 @@
  */
 package socialportalen;
 
-import DataLayer.ConnectToDb;
+import DataLayer.DatabaseManager;
 
 /**
  *
@@ -18,9 +18,10 @@ public class SocialPortalen {
      */
     public static void main(String[] args) {
         
-        ConnectToDb FUCKMIG = new ConnectToDb(); 
+        DatabaseManager FUCKMIG = new DatabaseManager(); 
         
         FUCKMIG.connection(); 
+        
         
     }
     
