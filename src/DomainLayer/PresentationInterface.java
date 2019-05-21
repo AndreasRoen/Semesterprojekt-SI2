@@ -20,4 +20,5 @@ public interface PresentationInterface {
     public UserType.type currentUserType();
     
     public ArrayList<Module> getAvaiableModules();
+    
 }

@@ -1,5 +1,6 @@
 package DomainLayer;
 
+import Modules.Calender;
 import Modules.Diary;
 import Modules.Module;
 import Modules.ResidentManegement;
@@ -20,7 +21,8 @@ public class DomainHub implements PresentationInterface {
     ResidentManegement rm = new ResidentManegement(this);
     ResidentSelection rs = new ResidentSelection(this);
     Diary d = new Diary(this);
-    private Module[] modules = {sm, rm, rs, d};
+    Calender c = new Calender(this);
+    private Module[] modules = {sm, rm, rs, d, c};
     
     public DomainHub(){
         

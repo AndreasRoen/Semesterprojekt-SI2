@@ -4,6 +4,7 @@ package UI;
 import DomainLayer.DomainHub;
 import DomainLayer.PresentationInterface;
 import DomainLayer.UserType;
+import Modules.Module;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -182,17 +183,22 @@ public class Main extends Application {
         modules.setPadding(new Insets(25, 25, 25, 25));
         modules.setSpacing(20.0);
         moduleGrid.setCenter(modules);
+        
         //TODO make modues modular, so that modules are automaticly detected and added
-        //TODO load every package in 'Modules' package and add them to HBox in scene as new 'Module'
-        //TODO call the 'getScene' of selected 'Module', then that scene while hiding the 'moduleSelection' scene
-        Button diary = new Button();
-        diary.setText("Diary");
-        Button calender = new Button();
-        calender.setText("Calender");
-        Button manageStaff = new Button();
-        manageStaff.setText("Manage Staff");
-        Button manageResidents = new Button();
-        manageResidents.setText("Manage Residents");
+        //TODO load every module in 'Modules' package and add them to HBox in scene as new 'Module'
+        
+        //Adds every module available for the usertype
+        for (Module m : pI.getAvaiableModules()){
+            Button b = new Button(m.getName());
+            b.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                m.showScene(stage);
+                }
+            });
+            modules.getChildren().add(b);
+        }
+        
         Button back = new Button();
         back.setText("Back");
         HBox backBox = new HBox();
@@ -201,6 +207,7 @@ public class Main extends Application {
         backBox.setPadding(new Insets(25, 25, 25, 25));
         moduleGrid.setBottom(backBox);
 
+<<<<<<< HEAD
         //Enable buttons available to user type
 <<<<<<< HEAD
         //TODO change button addition to Domain layer
@@ -215,39 +222,11 @@ public class Main extends Application {
             modules.getChildren().add(calender);
         }
 
+=======
+>>>>>>> Modules
         Scene scene = new Scene(moduleGrid, 450, 300);
         stage.setScene(scene);
 
-        diary.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (type == UserType.type.USER) {
-                    overview("Residents");
-                } else {
-                    //TODO set user id as argument
-                    //TODO make 'diary' open diary of the user with the id as argument.
-                    diary("");
-                }
-            }
-        });
-        calender.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //TODO open calender (Not being implemented in this project)
-            }
-        });
-        manageStaff.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                overview("Staff");
-            }
-        });
-        manageResidents.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                overview("Residents");
-            }
-        });
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
