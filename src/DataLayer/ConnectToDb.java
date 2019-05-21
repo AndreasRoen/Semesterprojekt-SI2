@@ -10,10 +10,12 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author Malte
+ * 
  */
 public class ConnectToDb {
     
@@ -21,6 +23,8 @@ public class ConnectToDb {
     // TODO SET all tablenames to the correct naming from tables. 
     public static final String DB_NAME = "postgres";
     public static final String CONNECTION_STRING = "jdbc:postgresql://localhost:5432/" + DB_NAME; 
+    public static final String CONNECTION_PASSWORD = "ASDqwe123"; 
+    public static final String CONNECTION_USERNAME = "postgres"; 
     public static final String TABLE_NAME = ""; 
     public static final String COLUMN_NAME = ""; 
     public static final int COLUMN_PERSON_ID = 0; 
@@ -38,7 +42,7 @@ public class ConnectToDb {
 
         
         try {
-        Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","ASDqwe123"); // Username and password for your Database :) 
+        Connection conn = DriverManager.getConnection(CONNECTION_STRING,CONNECTION_USERNAME,CONNECTION_PASSWORD); // Username and password for your Database :) 
         conn.setAutoCommit(true); // Set false if Auto commit to DB is not wanted (It is guys ;P ) 
         Statement statement = conn.createStatement();
 
@@ -102,33 +106,43 @@ public class ConnectToDb {
         
     }
     
-    private void addStaff(Statement statement,int Person_ID, String password, String Kommune1,String bosted1, int role_ID, String SocialPortalenTs)throws SQLException{
+    private void addStaff(Statement statement,int Person_ID, String kommune,String bosted, int role_ID, String SocialPortalenTs)throws SQLException{
             statement.execute("INSERT INTO " + TABLE_NAME +
                 " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_PASSWORD + ", "
                  + "" + COLUMN_KOMMUNE + ", "
                  + "" + COLUMN_BOSTED + " , "
                  + "" + COLUMN_ROLEID + " , "        
                  + "" + COLUMN_TS +
                  ") " +
-                "VALUES(" + Person_ID + ", '" + ¤name¤ + "', '" + ¤lastName¤ + "'," + role_ID + ",'" + SocialPortalenTs + "')");    //TODO set in the right parameters for staff    
+                "VALUES(" + Person_ID + ", '" + kommune + "', '" + bosted + "'," + role_ID + ",'" + SocialPortalenTs + "')");    
         
     }
-    private void addResident(Statement statement,int Person_ID, String password, String Kommune1,String bosted1, int role_ID, String SocialPortalenTs)throws SQLException{
+    private void addResident(Statement statement,int Person_ID, String Kommune,String bosted,  String SocialPortalenTs)throws SQLException{
             statement.execute("INSERT INTO " + TABLE_NAME +
                 " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_PASSWORD + ", "
                  + "" + COLUMN_KOMMUNE + ", "
                  + "" + COLUMN_BOSTED + " , "
                  + "" + COLUMN_ROLEID + " , "        
                  + "" + COLUMN_TS +
                  ") " +
-                "VALUES(" + Person_ID + ", '" + name + "', '" + lastName + "'," + role_ID + ",'" + SocialPortalenTs + "')");        //TODO set in the right parameters for residents      
+                "VALUES(" + Person_ID + ", '" + Kommune + "', '" + bosted + "',"  + SocialPortalenTs + "')");      
         
     }
-    
-    
-    
-    
+
+    private void checkPassword(Statement statement, String salt, String password, String givenPassword, String givenUsername) throws SQLException{
+        
+
+        String SQL = "SELECT * FROM USERS" +
+                              "Inner Join Bruger_informationer WHERE  Bruger "
+                             + "Password = GivenPassword AND Username = givenUsername;";
+        ResultSet rs = statement.executeQuery(SQL);
+        String test =  rs.toString();
+        EncryptPassword.verifyUserPassword(givenPassword,test, salt); 
+
+        
+    }
 }
->>>>>>> Data
+    
+    
+    
+    

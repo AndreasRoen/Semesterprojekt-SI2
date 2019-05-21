@@ -5,6 +5,8 @@
  */
 package socialportalen;
 
+import DataLayer.ConnectToDb;
+
 /**
  *
  * @author andre
@@ -15,7 +17,11 @@ public class SocialPortalen {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        ConnectToDb FUCKMIG = new ConnectToDb(); 
+        
+        FUCKMIG.connection(); 
+        
     }
     
 }
