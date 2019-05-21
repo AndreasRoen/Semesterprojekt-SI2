@@ -5,6 +5,8 @@
  */
 package DataLayer;
 
+import java.sql.Statement;
+
 
 /**
  *
@@ -12,17 +14,18 @@ package DataLayer;
  */
 public interface DBController
 {
-    boolean addResident(); 
-    boolean addUserInformation(); 
-    boolean addStaff();
-    boolean checkPassword();
-    boolean CreateDatabase();
+    boolean addResident(Statement statement,int Person_ID, String Kommune,String bosted,  String SocialPortalenTs); 
+    boolean addUserInformation(Statement statement,int Person_ID, String password, String Kommune1,String bosted1, int role_ID, String SocialPortalenTs); 
+    boolean addStaff(Statement statement,int Person_ID, String kommune,String bosted, int role_ID, String SocialPortalenTs);
+    boolean checkPassword(Statement statement, String salt, String password, String givenPassword, String givenUsername);
+    boolean CreateDatabase(Statement statement);
+    boolean CreateTable(Statement statement); 
     
-    String getId();
-    String[] getDiary();
-    String getResidents();
+    String getId(Statement statement);
+    String[] getDiary(Statement statement);
+    String getResidents(Statement statement);
     
-    String[] getUsers();  //From residents 
+    String[] getUsers(Statement statement);  //From residents 
     
     
     
