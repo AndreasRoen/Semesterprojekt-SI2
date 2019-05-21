@@ -8,7 +8,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -31,11 +38,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class Main extends Application {
 
     private Stage stage;
 
+<<<<<<< HEAD
     //TODO let 'currentUserType' in domain layer be used instead of 'type'
     private UserType.type type;
 
@@ -52,6 +61,23 @@ public class Main extends Application {
 
     private ListView listView;
 
+=======
+    private String type;
+
+    private ObservableList<String> residents;
+
+    private ObservableList<String> staff;
+
+    //TODO use userId to fetch ObserableLists from other layers
+    private UUID userId;
+
+    private ListView listView;
+
+    private boolean toggleOn;
+    
+    Random r = new Random();
+
+>>>>>>> AutoGen
     @Override
     public void start(Stage primaryStage) {
         //Sets up interface
@@ -112,6 +138,40 @@ public class Main extends Application {
             }
         });
 
+<<<<<<< HEAD
+=======
+    }
+
+    private boolean validLogin(String username, String password) {
+        if (isValid(username) && isValid(password)) {
+            //TODO check with existing accounts in DATA layer
+            if ("user".equals(username) && "pass".equals(password)) {
+                type = "Caregiver";
+                return true;
+            } else if ("admin".equals(username) && "pass".equals(password)) {
+                type = "Admin";
+                return true;
+            } else if ("resident".equals(username) && "pass".equals(password)) {
+                type = "Resident";
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    private boolean isValid(String string) {
+        char[] stringToCharArray = string.toCharArray();
+        boolean test = true;
+        for (char c : stringToCharArray) {
+            if (!Character.isLetter(c) && !Character.isDigit(c)) {
+                test = false;
+            }
+        }
+        return test;
+>>>>>>> AutoGen
     }
 
     private void moduleSelection() {
@@ -142,8 +202,12 @@ public class Main extends Application {
         moduleGrid.setBottom(backBox);
 
         //Enable buttons available to user type
+<<<<<<< HEAD
         //TODO change button addition to Domain layer
         if(type == UserType.type.ADMIN){
+=======
+        if ("Admin".equals(type)) {
+>>>>>>> AutoGen
             modules.getChildren().add(manageStaff);
             modules.getChildren().add(manageResidents);
         } else {
@@ -192,7 +256,10 @@ public class Main extends Application {
         });
     }
 
+<<<<<<< HEAD
     //TODO delete method when modules are fully implemnted
+=======
+>>>>>>> AutoGen
     private void overview(String wantedList) {
         //Sets up overview scene
         GridPane grid = new GridPane();
@@ -210,17 +277,30 @@ public class Main extends Application {
         vbox.setPadding(new Insets(100, 10, 10, 10));
         Button add = new Button("Add");
         add.setMinWidth(vbox.getPrefWidth());
+<<<<<<< HEAD
+=======
+        Button edit = new Button("Edit");
+        edit.setMinWidth(vbox.getPrefWidth());
+>>>>>>> AutoGen
         Button remove = new Button("Remove");
         remove.setMinWidth(vbox.getPrefWidth());
         Button select = new Button("Select");
         grid.add(vbox, 1, 0);
 
         //Sets content of 'Overview' based on user type and 'wantedList'
+<<<<<<< HEAD
         if (type == UserType.type.ADMIN) {
+=======
+        if ("Admin".equals(type)) {
+>>>>>>> AutoGen
             vbox.getChildren().add(add);
             vbox.getChildren().add(remove);
         }
+<<<<<<< HEAD
         if (type == UserType.type.USER) {
+=======
+        if ("Caregiver".equals(type)) {
+>>>>>>> AutoGen
             vbox.getChildren().add(select);
         }
 
@@ -263,7 +343,10 @@ public class Main extends Application {
         });
     }
 
+<<<<<<< HEAD
     //TODO delete method when modules are fully implemented
+=======
+>>>>>>> AutoGen
     private void listPromt(String namePrompt) {
         //Sets up popup window
         GridPane pop = new GridPane();
@@ -296,9 +379,19 @@ public class Main extends Application {
         confirm.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+<<<<<<< HEAD
                 //TODO save additions permanently in another layer
                 listView.getItems().add(name.textProperty().getValue());
                 popup.close();
+=======
+                if (isValid(name.textProperty().getValue())) {
+                    //TODO save additions permanently in another layer
+                    listView.getItems().add(name.textProperty().getValue());
+                    popup.close();
+                } else {
+                    status.setText("Invalid information entered");
+                }
+>>>>>>> AutoGen
             }
         });
         cancel.setOnAction(new EventHandler<ActionEvent>() {
@@ -309,7 +402,10 @@ public class Main extends Application {
         });
     }
 
+<<<<<<< HEAD
     //TODO delete method when modules are fully implemented
+=======
+>>>>>>> AutoGen
     private void diary(String name) {
         //Sets up the scene
         GridPane grid = new GridPane();
@@ -334,15 +430,23 @@ public class Main extends Application {
         Button remove = new Button("Remove");
         remove.setMinWidth(vbox.getPrefWidth());
         Button back = new Button("Back");
+        Button autoGen = new Button("AutoGen");
+        Button stopGen = new Button("HaltAuto");
         grid.add(back, 1, 1);
 
         //Date getter, delete if automatic timestamp is not needed in diary
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
+<<<<<<< HEAD
         if (type == UserType.type.USER) {
+=======
+        if ("Caregiver".equals(type)) {
+>>>>>>> AutoGen
             grid.add(input, 0, 1);
             vbox.getChildren().add(add);
             vbox.getChildren().add(remove);
+            vbox.getChildren().add(autoGen);
+            vbox.getChildren().add(stopGen);
         }
 
         Scene scene = new Scene(grid, 600, 780);
@@ -351,6 +455,25 @@ public class Main extends Application {
         diary.setTitle(name + " Diary");
         stage.close();
         diary.show();
+<<<<<<< HEAD
+=======
+        
+        Timeline autoGenMessage = new Timeline(new KeyFrame(Duration.seconds(r.nextInt(8 - 2 + 1) + 2), new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Date date = new Date();
+                String[] messages = new String[5];
+                messages[0] = "Borger har modtaget penicillin";
+                messages[1] = "Borger har modtaget insulin";
+                messages[2] = "Borger har modtaget paracetamol";
+                messages[3] = "Borger har modtaget melatonin";
+                messages[4] = "Borger har modtaget halcion";
+                listView.getItems().add(dateFormat.format(date) + "\n" + messages[r.nextInt(messages.length)]);
+            }
+        }));
+        autoGenMessage.setCycleCount(Timeline.INDEFINITE);
+>>>>>>> AutoGen
 
         //Adds functinality to buttons and listView
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -363,6 +486,7 @@ public class Main extends Application {
         back.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                toggleOn = false;
                 diary.close();
                 stage.show();
             }
@@ -370,11 +494,20 @@ public class Main extends Application {
         add.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+<<<<<<< HEAD
                 //TODO save additions permanently in another layer
                 Date date = new Date();
                 //TODO add users name after date but before input text.
                 listView.getItems().add(dateFormat.format(date) + "\n" + input.getText());
 
+=======
+                //NOTE 'isValid' is not necessarily needed since only approved users have access
+                if (isValid(input.getText())) {
+                    //TODO save additions permanently in another layer
+                    Date date = new Date();
+                    listView.getItems().add(dateFormat.format(date) + "\n" + input.getText());
+                }
+>>>>>>> AutoGen
             }
         });
 
@@ -384,5 +517,20 @@ public class Main extends Application {
                 listView.getItems().remove(listView.getSelectionModel().getSelectedItem());
             }
         });
+        autoGen.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                autoGenMessage.play();
+            }
+        });
+        stopGen.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                autoGenMessage.stop();
+            }
+        });
+        
+        
     }
+
 }
