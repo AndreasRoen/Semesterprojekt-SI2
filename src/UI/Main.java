@@ -1,4 +1,3 @@
-
 package UI;
 
 import DomainLayer.DomainHub;
@@ -62,7 +61,7 @@ public class Main extends Application {
     private ListView listView;
 
     private boolean toggleOn;
-    
+
     Random r = new Random();
 
     @Override
@@ -112,6 +111,10 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
+        //TODO delete when finish testing
+        Button db = new Button("Create Database");
+        loginGrid.add(db, 0, 5);
+
         //Checks if login info is valid and loads users info if it is
         signin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -124,6 +127,12 @@ public class Main extends Application {
                 }
             }
         });
+        db.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                
+            }
+        });
     }
 
     private void moduleSelection() {
@@ -134,22 +143,21 @@ public class Main extends Application {
         modules.setPadding(new Insets(25, 25, 25, 25));
         modules.setSpacing(20.0);
         moduleGrid.setCenter(modules);
-        
+
         //TODO make modues modular, so that modules are automaticly detected and added
         //TODO load every module in 'Modules' package and add them to HBox in scene as new 'Module'
-        
         //Adds every module available for the usertype
-        for (Module m : pI.getAvaiableModules()){
+        for (Module m : pI.getAvaiableModules()) {
             Button b = new Button(m.getName());
             b.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                m.showScene(stage);
+                    m.showScene(stage);
                 }
             });
             modules.getChildren().add(b);
         }
-        
+
         Button back = new Button();
         back.setText("Log out");
         HBox backBox = new HBox();
