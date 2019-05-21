@@ -5,6 +5,7 @@
  */
 package DataLayer;
 
+import DomainLayer.Resident;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *
@@ -52,9 +54,9 @@ public class DatabaseManager {
     try{
         Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","ASDqwe123"); // Username and password for your Database :) 
         connection.setAutoCommit(true); // Set false if Auto commit to DB is not wanted (It is guys ;P ) 
-        //Statement statement = connection.createStatement();
 
-        statement.execute("CREATE DATABASE IF NOT EXISTS SOCIALPORTALEN"); 
+        CreateDatabase();
+        
         
         ResultSet result = statement.executeQuery("SELECT * from "+ TABLE_NAME); 
         
@@ -145,6 +147,30 @@ public class DatabaseManager {
     
     private void CreateDatabase(){ //TODO Make Create database for all pcs 
         
+    }
+    
+    private String getId(){
+        
+        return Role_id; 
+    }
+    
+    private String getResidents(UUID roleId ){
+       
+        return resident; 
+        
+    }
+    
+    private String getDiary(UUID roleId){
+        
+        
+        return diary; 
+    }
+    
+    private String getUsers(UUID roleId){
+        
+        
+        
+        return bosteder; 
     }
 }
     

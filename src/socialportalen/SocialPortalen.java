@@ -20,7 +20,8 @@ public class SocialPortalen {
         
         DatabaseManager FUCKMIG = new DatabaseManager(); 
         
-        FUCKMIG.connection(); 
+        FUCKMIG.connection();        
+         
         
         
     }
