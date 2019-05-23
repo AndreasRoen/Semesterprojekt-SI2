@@ -44,23 +44,7 @@ public class Main extends Application {
 
     private Stage stage;
 
-    //TODO let 'currentUserType' in domain layer be used instead of 'type'
-    private UserType.type type;
-
-    //TODO remove? (then get wantedLists from pI interface)
-    private ObservableList<String> residents;
-
-    //TODO remove? (then get WantedList from pI interface)
-    private ObservableList<String> staff;
-
-    //TODO move to domain layer
-    private UUID userId;
-
     private PresentationInterface pI;
-
-    private ListView listView;
-
-    private boolean toggleOn;
 
     Random r = new Random();
 
@@ -73,14 +57,6 @@ public class Main extends Application {
         this.stage = primaryStage;
         stage.setResizable(false);
         stage.setTitle("Socialportalen");
-        residents = FXCollections.observableArrayList();
-        staff = FXCollections.observableArrayList();
-
-        //Tests listView with dummy data
-        //TODO load real data from another layer (AFTER SUCCESFUL LOGIN)
-        residents.add("Lone");
-        residents.add("Paul");
-        staff.add("Erik");
         login();
     }
 

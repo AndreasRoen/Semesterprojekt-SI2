@@ -8,6 +8,7 @@ import Modules.Module;
 import Modules.ResidentManegement;
 import Modules.ResidentSelection;
 import Modules.StaffManegement;
+import Modules.Terminal;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -26,10 +27,11 @@ public class DomainHub implements PresentationInterface {
     ResidentSelection rs = new ResidentSelection(this);
     Diary d = new Diary(this);
     Calender c = new Calender(this);
-    private Module[] modules = {sm, rm, rs, d, c};
+    Terminal t = new Terminal(this);
+    private Module[] modules = {sm, rm, rs, d, c, t};
     
     public DomainHub(){
-        dbm = new DatabaseManager();
+//        dbm = new DatabaseManager();
     }
     
 
