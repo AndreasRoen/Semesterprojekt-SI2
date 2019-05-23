@@ -87,9 +87,10 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        //TODO delete when finish testing
-        Button db = new Button("Create Database");
-        loginGrid.add(db, 0, 5);
+        //Should be done automaticly
+//        //TODO delete when finish testing
+//        Button db = new Button("Create Database");
+//        loginGrid.add(db, 0, 5);
 
         //Checks if login info is valid and loads users info if it is
         signin.setOnAction(new EventHandler<ActionEvent>() {
@@ -103,12 +104,12 @@ public class Main extends Application {
                 }
             }
         });
-        db.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                
-            }
-        });
+//        db.setOnAction(new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                
+//            }
+//        });
     }
 
     private void moduleSelection() {
