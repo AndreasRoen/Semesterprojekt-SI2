@@ -15,26 +15,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *
  * 
  */
-public class DatabaseManager implements DBController{
-    /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-    private final String url = "jdbc:postgresql://localhost:5432/postgres";
-    private final String user = "postgres";
-    private final String password = "CGk98dWA";
+public class DatabaseManager{
+  
+    private final String url = "jdbc:postgresql://localhost:5432/postgres"; // LOcal DB
+    private final String user = "postgres"; // USername
+    private final String password = "ASDqwe123"; // Password
+    
 
     public Connection connect() throws SQLException
     {
         return DriverManager.getConnection(url, user, password);
+        
     }
 
     /**
@@ -44,6 +41,8 @@ public class DatabaseManager implements DBController{
     {
         DatabaseManager main = new DatabaseManager();
         main.findUserByLogin("Malte","Bukrinski");
+        SimpleStringProperty test  = main.findUserByID(1); 
+        System.out.println("Hopefully this works " + test );
     }
 
     public int getUserCount()
@@ -75,9 +74,9 @@ public class DatabaseManager implements DBController{
         }
     }
 
-    public String findUserByID(int userID)
+    public SimpleStringProperty findUserByID(int userID)
     {
-        String output = ""; 
+        SimpleStringProperty output = new SimpleStringProperty(); 
         String SQL = "SELECT person_id,name,lastname "
                 + "FROM Bruger "
                 + "WHERE person_id = ?";
@@ -90,37 +89,39 @@ public class DatabaseManager implements DBController{
             ResultSet rs = pstmt.executeQuery();
             displayUser(rs);
             while(rs.next()){
-                output = rs.getString("name" ) + "\t" + rs.getString("lastname"); 
+                output.set(rs.getString("name" ) + "\t" + rs.getString("lastname"));
+                //output = rs.getString("name" ) + "\t" + rs.getString("lastname"); 
+                 return output; 
             }
-            return output; 
+           
             
         } catch (SQLException ex)
         {
             System.out.println(ex.getMessage());
              
         }
-        return "";
+        return output;
     }
 
-//    public String findUserByName(String name)
-//    {
-//        String SQL = "SELECT person_id,name,lastname "
-//                + "FROM Bruger "
-//                + "WHERE name = ?";
-//
-//        try (Connection conn = connect();
-//                PreparedStatement pstmt = conn.prepareStatement(SQL))
-//        {
-//
-//            pstmt.setString(1, name);
-//            ResultSet rs = pstmt.executeQuery();
-//            displayUser(rs);
-//        } catch (SQLException ex)
-//        {
-//            return ex.getMessage();
-//        }
-//        return  
-//    }
+    public String findUserByName(String name)
+    {
+        String SQL = "SELECT person_id,name,lastname "
+                + "FROM Bruger "
+                + "WHERE name = ?";
+
+        try (Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(SQL))
+        {
+
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+            displayUser(rs);
+            return rs.getCursorName(); 
+        } catch (SQLException ex)
+        {
+            return ex.getMessage();
+        }
+    }
 
     public void findUserByResidence(int residence)
     {
@@ -161,19 +162,18 @@ public class DatabaseManager implements DBController{
             System.out.println(ex.getMessage());
         }
     }
-      public void findUserByCommune(String name, String lastname)
+      public void findUserByCommune(String commune)
     {
         String SQL = "SELECT name,lastname, username "
                 + "FROM Bruger "
-                + "WHERE name = ?"
-                + "and lastname = ?";
+                + "WHERE kommune = ?"
+                ;
 
         try (Connection conn = connect();
                 PreparedStatement pstmt = conn.prepareStatement(SQL))
         {
 
-            pstmt.setString(1, name);
-            pstmt.setString(2, lastname);
+            pstmt.setString(1, commune);
             ResultSet rs = pstmt.executeQuery();
             displayUser(rs);
         } catch (SQLException ex)
@@ -181,361 +181,110 @@ public class DatabaseManager implements DBController{
             System.out.println(ex.getMessage());
         }
     }
-
-    @Override
-    public boolean addResident(Statement statement, int Person_ID, String Kommune, String bosted, String SocialPortalenTs)
+        public void createDatabase()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        String SQL = "CREATE DATABASE \"Socialportalen\"\n" +
+        "    WITH \n" +
+        "    OWNER = postgres\n" +
+        "    ENCODING = 'UTF8'\n" +
+        "    LC_COLLATE = 'Danish_Denmark.1252'\n" +
+        "    LC_CTYPE = 'Danish_Denmark.1252'\n" +
+        "    TABLESPACE = pg_default\n" +
+        "    CONNECTION LIMIT = -1;\n" +
+        "\n" +
+        "GRANT ALL ON DATABASE \"Socialportalen\" TO postgres;\n" +
+        "\n" +
+        "GRANT TEMPORARY, CONNECT ON DATABASE \"Socialportalen\" TO PUBLIC;"
+                + "Create Table if not exists User(\n" +
+        "    Person_id int not null PRIMARY KEY,\n" +
+        "    Name varchar(130) not null ,\n" +
+        "    lastName varchar(200) not null,\n" +
+        "    Role_id int not null,\n" +
+        "    Socialportalen_Ts char(26)	\n" +
+        "); \n" +
+        "	\n" +
+        "Create Table if not exists User_information(\n" +
+        "	Person_id int not null PRIMARY KEY,\n" +
+        "	Password varchar(130) not null ,\n" +
+        "	Kommune1 varchar(200) not null,\n" +
+        "	Kommune2 varchar(200),\n" +
+        "	Kommune3 varchar(200),\n" +
+        "	Bosted1 Varchar(200) not null,\n" +
+        "	Bosted2 Varchar(200),\n" +
+        "	Bosted3 Varchar(200),\n" +
+        "	Socialportalen_Ts char(26)\n" +
+        "); \n" +
+        "\n" +
+        "\n" +
+        "CREATE TABLE if not exists staff(\n" +
+        "    Person_id int not null PRIMARY KEY,\n" +
+        "    Kommune1 varchar(200) not null,\n" +
+        "	Kommune2 varchar(200),\n" +
+        "	Kommune3 varchar(200),\n" +
+        "	Bosted1 Varchar(200) not null,\n" +
+        "	Bosted2 Varchar(200),\n" +
+        "	Bosted3 Varchar(200),\n" +
+        "    Role_id int not null,\n" +
+        "    Socialportalen_Ts char(26)\n" +
+        "\n" +
+        ");\n" +
+        "\n" +
+        "CREATE TABLE if not exists residents(\n" +
+        "    Person_id int not null PRIMARY KEY,\n" +
+        "    Kommune1 varchar(200) not null,\n" +
+        "	Bosted1 Varchar(200) not null,\n" +
+        "    PermissionLevel int,\n" +
+        "    Socialportalen_Ts char(26)\n" +
+        "\n" +
+        ");"
+                
+        ;
 
-    @Override
-    public boolean addUserInformation(Statement statement, int Person_ID, String password, String Kommune1, String bosted1, int role_ID, String SocialPortalenTs)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean addStaff(Statement statement, int Person_ID, String kommune, String bosted, int role_ID, String SocialPortalenTs)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean checkPassword(Statement statement, String salt, String password, String givenPassword, String givenUsername)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean CreateDatabase(Statement statement)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean CreateTable(Statement statement)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getId(Statement statement)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String[] getDiary(Statement statement)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getResidents(Statement statement)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String[] getUsers(Statement statement)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    
-
-}
-/*
-    // ALL PARAMTERES HAS TO BE SET IN THE INTERFACE FOR THE USE OF ADMINS ONLY
-    // TODO SET all tablenames to the correct naming from tables. 
-    public static final String DB_NAME = "postgres";
-    public static final String CONNECTION_STRING = "jdbc:postgresql://localhost:5432/" + DB_NAME; 
-    public static final String CONNECTION_PASSWORD = "ASDqwe123"; 
-    public static final String CONNECTION_USERNAME = "postgres"; 
-    public static final String TABLE_NAME = ""; 
-    public static final String COLUMN_NAME = ""; 
-    public static final int COLUMN_PERSON_ID = 0; 
-    public static final String COLUMN_LASTNAME = ""; 
-    public static final String COLUMN_ROLEID = ""; 
-    public static final String COLUMN_KOMMUNE = ""; 
-    public static final String COLUMN_TS = ""; 
-    public static final String COLUMN_BOSTED = ""; 
-    public static final String COLUMN_PASSWORD = ""; 
- 
-    private Connection connection; 
-    
-    
-    public void connection(){
-
-        
-        try {
-        Connection conn = DriverManager.getConnection(CONNECTION_STRING,CONNECTION_USERNAME,CONNECTION_PASSWORD); // Username and password for your Database :) 
-        conn.setAutoCommit(true); // Set false if Auto commit to DB is not wanted (It is guys ;P ) 
-        Statement statement = conn.createStatement();
-
-    try{
-        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres","postgres","ASDqwe123"); // Username and password for your Database :) 
-        connection.setAutoCommit(true); // Set false if Auto commit to DB is not wanted (It is guys ;P ) 
-      
-        
-        ResultSet result = statement.executeQuery("SELECT * from "+ TABLE_NAME); 
-        
-        
-        while (result.next())
+        try (Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(SQL))
         {
-            System.out.println(result.getString("name"));  // A way to print out a statement            
-        }
-        
-        
-        statement.close();
-
-        conn.close();
-        } catch (SQLException e) {
-        }
-
-        connection.close();
-    }catch(SQLException e) {
-        System.out.println("Somehing went wrong "+ e.getMessage());
-
-    }
-    
-}
-
-    
-    
-    private static void addUser(Statement statement,int Person_ID, String name, String lastName, int role_ID, String SocialPortalenTs) throws SQLException{
-        statement.execute("INSERT INTO " + TABLE_NAME +
-                " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_NAME + ", "
-                 + "" + COLUMN_LASTNAME + ", "
-                 + "" + COLUMN_ROLEID + " , "
-                 + "" + COLUMN_TS +
-                 ") " +
-                "VALUES(" + Person_ID + ", '" + name + "', '" + lastName + "'," + role_ID + ",'" + SocialPortalenTs + "')");
-        
-    }
-    
-    private void addUserInformation(Statement statement,int Person_ID, String password, String Kommune1,String bosted1, int role_ID, String SocialPortalenTs) throws SQLException{
-            statement.execute("INSERT INTO " + TABLE_NAME +
-                " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_PASSWORD + ", "
-                 + "" + COLUMN_KOMMUNE + ", "
-                 + "" + COLUMN_BOSTED + " , "
-                 + "" + COLUMN_ROLEID + " , "        
-                 + "" + COLUMN_TS +
-                 ") " +
-                "VALUES(" + Person_ID + ", '" + password + "', '" + Kommune1 + "',, '" + bosted1 + "'" + role_ID + ",'" + SocialPortalenTs + "')");        
-        
-    }
-    
-    private void addStaff(Statement statement,int Person_ID, String kommune,String bosted, int role_ID, String SocialPortalenTs)throws SQLException{
-            statement.execute("INSERT INTO " + TABLE_NAME +
-                " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_KOMMUNE + ", "
-                 + "" + COLUMN_BOSTED + " , "
-                 + "" + COLUMN_ROLEID + " , "        
-                 + "" + COLUMN_TS +
-                 ") " +
-                "VALUES(" + Person_ID + ", '" + kommune + "', '" + bosted + "'," + role_ID + ",'" + SocialPortalenTs + "')");    
-        
-    }
-//    private void addResident(Statement statement,int Person_ID, String Kommune,String bosted,  String SocialPortalenTs)throws SQLException{
-//            statement.execute("INSERT INTO " + TABLE_NAME +
-//                " ("+COLUMN_PERSON_ID +", "
-//                 + "" + COLUMN_KOMMUNE + ", "
-//                 + "" + COLUMN_BOSTED + " , "
-//                 + "" + COLUMN_ROLEID + " , "        
-//                 + "" + COLUMN_TS +
-//                 ") " +
-//                "VALUES(" + Person_ID + ", '" + Kommune + "', '" + bosted + "',"  + SocialPortalenTs + "')");      
-//        
-//    }
-
-    
-    
-    // MUlig løsning på en streng der kan overfører SQL til en string. 
-    private void checkPassword(Statement statement, String salt, String password, String givenPassword, String givenUsername) throws SQLException{
-        
-
-        String SQL = "SELECT * FROM USERS" +
-                              "Inner Join Bruger_informationer WHERE  Bruger "
-                             + "Password = GivenPassword AND Username = givenUsername;";
-        ResultSet rs = statement.executeQuery(SQL);
-        String test =  rs.toString();
-        EncryptPassword.verifyUserPassword(givenPassword,test, salt); 
-
-        
-    }
-    
-    
-
-    @Override
-    public boolean addResident(Statement statement,int Person_ID, String Kommune,String bosted,  String SocialPortalenTs)
-    {
-        try
-        {
-            
-        return statement.execute("INSERT INTO " + TABLE_NAME +
-                " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_KOMMUNE + ", "
-                 + "" + COLUMN_BOSTED + " , "
-                 + "" + COLUMN_ROLEID + " , "        
-                 + "" + COLUMN_TS +
-                 ") " +
-                "VALUES(" + Person_ID + ", '" + Kommune + "', '" + bosted + "',"  + SocialPortalenTs + "')");  
-    
-        } catch (SQLException e)
-        {
-            System.out.println("Something went wrong: " + e.getMessage());
-            return false; 
-        }
-        
-    }
-
-    @Override
-    public boolean addUserInformation(Statement statement,int Person_ID, String password, String Kommune1,String bosted1, int role_ID, String SocialPortalenTs)
-    {
-  try
-        {
-            
-        return statement.execute("INSERT INTO " + TABLE_NAME +
-                " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_PASSWORD + ", "
-                 + "" + COLUMN_KOMMUNE + ", "
-                 + "" + COLUMN_BOSTED + " , "
-                 + "" + COLUMN_ROLEID + " , "        
-                 + "" + COLUMN_TS +
-                 ") " +
-                "VALUES(" + Person_ID + ", '" + password + "', '" + Kommune1 + "',, '" + bosted1 + "'" + role_ID + ",'" + SocialPortalenTs + "')");        
-         
-    
-        } catch (SQLException e)
-        {
-            System.out.println("Something went wrong: " + e.getMessage());
-            return false; 
-        }    }
-
-    @Override
-    public boolean addStaff()
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean checkPassword()
-    {
-  try
-        {
-            
-        return statement.execute("INSERT INTO " + TABLE_NAME +
-                " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_KOMMUNE + ", "
-                 + "" + COLUMN_BOSTED + " , "
-                 + "" + COLUMN_ROLEID + " , "        
-                 + "" + COLUMN_TS +
-                 ") " +
-                "VALUES(" + Person_ID + ", '" + Kommune + "', '" + bosted + "',"  + SocialPortalenTs + "')");  
-    
-        } catch (SQLException e)
-        {
-            System.out.println("Something went wrong: " + e.getMessage());
-            return false; 
-        }    }
-
-    @Override
-    public String[] getDiary()
-    {
-  try
-        {
-            
-        return statement.execute("INSERT INTO " + TABLE_NAME +
-                " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_KOMMUNE + ", "
-                 + "" + COLUMN_BOSTED + " , "
-                 + "" + COLUMN_ROLEID + " , "        
-                 + "" + COLUMN_TS +
-                 ") " +
-                "VALUES(" + Person_ID + ", '" + Kommune + "', '" + bosted + "',"  + SocialPortalenTs + "')");  
-    
-        } catch (SQLException e)
-        {
-            System.out.println("Something went wrong: " + e.getMessage());
-            return false; 
-        }    }
-
-    @Override
-    public String getResidents()
-    {
-  try
-        {
-            
-        return statement.execute("INSERT INTO " + TABLE_NAME +
-                " ("+COLUMN_PERSON_ID +", "
-                 + "" + COLUMN_KOMMUNE + ", "
-                 + "" + COLUMN_BOSTED + " , "
-                 + "" + COLUMN_ROLEID + " , "        
-                 + "" + COLUMN_TS +
-                 ") " +
-                "VALUES(" + Person_ID + ", '" + Kommune + "', '" + bosted + "',"  + SocialPortalenTs + "')");  
-    
-        } catch (SQLException e)
-        {
-            System.out.println("Something went wrong: " + e.getMessage());
-            return false; 
-        }    }
-
-    @Override
-    public String[] getUsers(Statement statement) //TODO FIX
-    {
-  try
-        {
-            
-        return statement.execute("");  
-    
-        } catch (SQLException e)
-        {
-            System.out.println("Something went wrong: " + e.getMessage());
-            return false; 
-        }    }
-
-    @Override
-    public boolean CreateDatabase(Statement statement)
-    {
-        try
-            {
-                return statement.execute("CREATE DATABASE \"Socialportalen\" "+
-                "    WITH " +
-                "    OWNER = postgres" +
-                "    ENCODING = 'UTF8'" +
-                "    LC_COLLATE = 'Danish_Denmark.1252'" +
-                "    LC_CTYPE = 'Danish_Denmark.1252'" +
-                "    TABLESPACE = pg_default" +
-                "    CONNECTION LIMIT = -1;" +
-                "" +"GRANT ALL ON DATABASE \"Socialportalen\" TO postgres;" +
-                "" +"GRANT TEMPORARY, CONNECT ON DATABASE \"Socialportalen\" TO PUBLIC;");
-
-        } catch (SQLException e)
-        {
-            System.out.println("Something went wrong: " + e.getMessage());
-            return false; 
-        }    
-    }
-
-    @Override
-    public String getId()
-    {
-  try
-        {
-            
-        return "kage";  
-    
-        } catch (SQLException e)
-        {
-            return "Something went wrong: " + e.getMessage();
+            ResultSet rs = pstmt.executeQuery();
            
-        }    }*/
-}
+        } catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
+    }
+        public void createTableUsers()
+    {
+        String SQL = "CREATE Table \"\"\n" +
+        "    WITH \n" +
+        "    OWNER = postgres\n" +
+        "    ENCODING = 'UTF8'\n" +
+        "    LC_COLLATE = 'Danish_Denmark.1252'\n" +
+        "    LC_CTYPE = 'Danish_Denmark.1252'\n" +
+        "    TABLESPACE = pg_default\n" +
+        "    CONNECTION LIMIT = -1;\n" +
+        "\n" +
+        "GRANT ALL ON DATABASE \"Socialportalen\" TO postgres;\n" +
+        "\n" +
+        "GRANT TEMPORARY, CONNECT ON DATABASE \"Socialportalen\" TO PUBLIC;"
+        ;
+
+        try (Connection conn = connect();
+                PreparedStatement pstmt = conn.prepareStatement(SQL))
+        {
+            ResultSet rs = pstmt.executeQuery();
+           
+        } catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        
+    }
+        
+
+
     
+
+}
+
     
     
     

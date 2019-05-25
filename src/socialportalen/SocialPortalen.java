@@ -5,7 +5,6 @@
  */
 package socialportalen;
 
-import DataLayer.DatabaseManager;
 
 /**
  *
@@ -17,12 +16,7 @@ public class SocialPortalen {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        DatabaseManager FUCKMIG = new DatabaseManager(); 
-        
-        FUCKMIG.connection();        
-         
-        
+            
         
     }
     

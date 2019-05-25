@@ -1,6 +1,6 @@
 package DomainLayer;
 
-import DataLayer.DBController;
+
 import DataLayer.DatabaseManager;
 import Modules.Calender;
 import Modules.Diary;
@@ -18,7 +18,7 @@ public class DomainHub implements PresentationInterface {
     
     private UUID userID;
     
-    private DBController dbm;
+    
     
     //Sets all modules for project
     //TODO automate process (Not being done in this project)
