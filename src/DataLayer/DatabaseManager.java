@@ -23,9 +23,12 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class DatabaseManager{
   
-    private final String url = "jdbc:postgresql://localhost:5432/postgres"; // LOcal DB
-    private final String user = "postgres"; // USername
-    private final String password = "ASDqwe123"; // Password
+//    private final String url = "jdbc:postgresql://localhost:5432/postgres"; // LOcal DB
+//    private final String user = "postgres"; // USername
+//    private final String password = "ASDqwe123"; // Password
+    private final String url = "postgres://aksnqosj:5HXSoTmcZwE-GKiCKdqHYzyxEFNtSaTz@dumbo.db.elephantsql.com:5432/aksnqosj";
+    private final String user = "aksnqosj";
+    private final String password = "5HXSoTmcZwE-GKiCKdqHYzyxEFNtSaTz";
     
 
     public Connection connect() throws SQLException
