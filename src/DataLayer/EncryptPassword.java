@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataLayer;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -13,10 +9,6 @@ import java.util.Random;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-/**
- *
- * @author Malte Bukrinski
- */
 public class EncryptPassword
 {
     private static final Random RANDOM = new SecureRandom();

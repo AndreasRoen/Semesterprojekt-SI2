@@ -1,27 +1,12 @@
-
 package UI;
 
+import DataLayer.DatabaseManager;
 import DomainLayer.DomainHub;
 import DomainLayer.PresentationInterface;
-import DomainLayer.UserType;
 import Modules.Module;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -29,40 +14,23 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.util.Duration;
+import java.sql.*; 
 
 public class Main extends Application {
 
+    private Connection connection;
+    
+    DatabaseManager connect = new DatabaseManager() {}; 
+    
     private Stage stage;
-
-    //TODO let 'currentUserType' in domain layer be used instead of 'type'
-    private UserType.type type;
-
-    //TODO remove? (then get wantedLists from pI interface)
-    private ObservableList<String> residents;
-
-    //TODO remove? (then get WantedList from pI interface)
-    private ObservableList<String> staff;
-
-    //TODO move to domain layer
-    private UUID userId;
 
     private PresentationInterface pI;
 
-    private ListView listView;
-
-    private boolean toggleOn;
-    
     Random r = new Random();
 
     @Override
@@ -74,14 +42,6 @@ public class Main extends Application {
         this.stage = primaryStage;
         stage.setResizable(false);
         stage.setTitle("Socialportalen");
-        residents = FXCollections.observableArrayList();
-        staff = FXCollections.observableArrayList();
-
-        //Tests listView with dummy data
-        //TODO load real data from another layer (AFTER SUCCESFUL LOGIN)
-        residents.add("Lone");
-        residents.add("Paul");
-        staff.add("Erik");
         login();
     }
 
@@ -112,8 +72,13 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
 
-        //Checks if login info is valid and loads users info if it is
-        signin.setOnAction(new EventHandler<ActionEvent>() {
+//        Should be done automaticly
+        //TODO delete when database is created automatically
+        Button db = new Button("Create Database");
+        loginGrid.add(db, 0, 5);
+
+//        Checks if login info is valid and loads users info if it is
+        signin.setOnAction( new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if (pI.validLogin(txUsername.getText(), txPassword.getText())) {
@@ -124,6 +89,12 @@ public class Main extends Application {
                 }
             }
         });
+        
+                db.setOnAction(e ->
+        {
+            connect.createDatabase();
+        }); 
+       
     }
 
     private void moduleSelection() {
@@ -134,22 +105,19 @@ public class Main extends Application {
         modules.setPadding(new Insets(25, 25, 25, 25));
         modules.setSpacing(20.0);
         moduleGrid.setCenter(modules);
-        
-        //TODO make modues modular, so that modules are automaticly detected and added
-        //TODO load every module in 'Modules' package and add them to HBox in scene as new 'Module'
-        
+
         //Adds every module available for the usertype
-        for (Module m : pI.getAvaiableModules()){
+        for (Module m : pI.getAvaiableModules()) {
             Button b = new Button(m.getName());
             b.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                m.showScene(stage);
+                    m.showScene(stage);
                 }
             });
             modules.getChildren().add(b);
         }
-        
+
         Button back = new Button();
         back.setText("Log out");
         HBox backBox = new HBox();
@@ -168,4 +136,28 @@ public class Main extends Application {
             }
         });
     }
+    
+    
+//     private void connectToDB() {
+//         // Makes the program able to take other DBS etc. Need to make this work instead of a hard coded DB. 
+//        // Get database information from the user input
+////        String driver = cboDriver
+////                .getSelectionModel().getSelectedItem();
+////        String url = cboURL.getSelectionModel().getSelectedItem();
+////        String username = tfUsername.getText().trim();
+////        String password = pfPassword.getText().trim();
+//
+//        // Connection to the database
+//        try {
+////            Class.forName(driver);
+//            connection = DriverManager.getConnection(
+//                    "jdbc:postgresql://localhost:5432/postgres", "postgres", "ASDqwe123");
+//            System.out.println("Connected to DB ");
+////            lblConnectionStatus.setText("Connected to " + url);
+//
+//        }
+//        catch (java.lang.Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 }
