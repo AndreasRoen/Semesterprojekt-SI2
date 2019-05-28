@@ -9,6 +9,10 @@ import java.util.Random;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
+/*
+http://appsdeveloperblog.com/encrypt-user-password-example-java/
+*/
+
 public class EncryptPassword
 {
     private static final Random RANDOM = new SecureRandom();
