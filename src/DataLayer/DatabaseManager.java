@@ -1,34 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package DataLayer;
 
-import DomainLayer.Resident;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import javafx.beans.property.SimpleStringProperty;
 
-/**
- *
- * 
- */
 public class DatabaseManager{
   
-//    private final String url = "jdbc:postgresql://localhost:5432/postgres"; // LOcal DB
-//    private final String user = "postgres"; // USername
-//    private final String password = "ASDqwe123"; // Password
-    private final String url = "postgres://aksnqosj:5HXSoTmcZwE-GKiCKdqHYzyxEFNtSaTz@dumbo.db.elephantsql.com:5432/aksnqosj";
-    private final String user = "aksnqosj";
-    private final String password = "5HXSoTmcZwE-GKiCKdqHYzyxEFNtSaTz";
+    private final String url = "jdbc:postgresql://localhost:5432/postgres"; // LOcal DB
+    private final String user = "postgres"; // USername
+    private final String password = "ASDqwe123"; // Password
+//    private final String url = "postgres://aksnqosj:5HXSoTmcZwE-GKiCKdqHYzyxEFNtSaTz@dumbo.db.elephantsql.com:5432/aksnqosj";
+//    private final String user = "aksnqosj";
+//    private final String password = "5HXSoTmcZwE-GKiCKdqHYzyxEFNtSaTz";
     
 
     public Connection connect() throws SQLException
@@ -40,13 +28,13 @@ public class DatabaseManager{
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
-    {
-        DatabaseManager main = new DatabaseManager();
-        main.findUserByLogin("Malte","Bukrinski");
-        SimpleStringProperty test  = main.findUserByID(1); 
-        System.out.println("Hopefully this works " + test );
-    }
+//    public static void main(String[] args)
+//    {
+//        DatabaseManager main = new DatabaseManager();
+//        main.findUserByLogin("Malte","Bukrinski");
+//        SimpleStringProperty test  = main.findUserByID(1); 
+//        System.out.println("Hopefully this works " + test );
+//    }
 
     public int getUserCount()
     {

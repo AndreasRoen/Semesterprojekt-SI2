@@ -3,11 +3,8 @@ package Modules;
 
 import DomainLayer.PresentationInterface;
 import DomainLayer.UserType;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -25,8 +22,7 @@ public class Terminal extends Module{
 
     public Terminal(PresentationInterface p) {
         super(p);
-        //TODO remove 'UserType.type.USER' from 'availables' after testing
-        availables = new ArrayList<>(Arrays.asList(UserType.type.SUPER_ADMIN, UserType.type.USER));
+        availables = new ArrayList<>(Arrays.asList(UserType.type.SUPER_ADMIN));
     }
 
     @Override
@@ -45,13 +41,7 @@ public class Terminal extends Module{
         
         BorderPane bp = new BorderPane();
         
-        //TODO open Terminal window
-//        Runtime rt = Runtime.getRuntime();
-//        try {
-//            rt.exec("cmd.exe /c start command");
-//        } catch (IOException ex) {
-//            Logger.getLogger(Terminal.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        //TODO open erminal window (not being done in this project)
 
         Label message = new Label("This module is not implemented");
         bp.setCenter(message);

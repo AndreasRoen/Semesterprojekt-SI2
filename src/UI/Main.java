@@ -6,8 +6,6 @@ import DomainLayer.PresentationInterface;
 import Modules.Module;
 import java.util.Locale;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -75,7 +73,7 @@ public class Main extends Application {
         stage.show();
 
 //        Should be done automaticly
-        //TODO delete when finish testing
+        //TODO delete when database is created automatically
         Button db = new Button("Create Database");
         loginGrid.add(db, 0, 5);
 
@@ -108,8 +106,6 @@ public class Main extends Application {
         modules.setSpacing(20.0);
         moduleGrid.setCenter(modules);
 
-        //TODO make modues modular, so that modules are automaticly detected and added
-        //TODO load every module in 'Modules' package and add them to HBox in scene as new 'Module'
         //Adds every module available for the usertype
         for (Module m : pI.getAvaiableModules()) {
             Button b = new Button(m.getName());
